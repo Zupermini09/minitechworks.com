@@ -1,0 +1,122 @@
+/* ================================
+   MiniTechWorks — DARK MODE THEME
+   Style: Google/ChatGPT classic dark
+   ================================ */
+
+:root {
+  --primary: #3b82f6;
+  --primary-soft: rgba(59, 130, 246, 0.15);
+  --primary-dark: #1d4ed8;
+
+  --bg: #121417;          /* Main background */
+  --card-bg: #1e2227;     /* Panels/cards */
+  --surface: #181b1f;     /* Forms, header, footer */
+  --text: #e6e9ef;        /* Primary text */
+  --muted: #9ba1ab;       /* Subtle description text */
+  --border: #2a2f37;      /* Borders/dividers */
+
+  --radius-lg: 16px;
+  --radius-md: 10px;
+  --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* Global */
+
+body {
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+/* Header */
+
+.site-header {
+  background-color: var(--surface) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+/* Navigation */
+
+.nav a {
+  color: var(--muted) !important;
+}
+
+.nav a:hover {
+  background-color: var(--primary-soft) !important;
+  color: var(--primary) !important;
+}
+
+.nav a.active {
+  border-color: var(--primary) !important;
+  background-color: rgba(59,130,246,0.12) !important;
+  color: var(--primary) !important;
+}
+
+/* Cards / Panels */
+
+.card,
+.hero-panel,
+.side-panel {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+
+/* Forms */
+
+.form {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+}
+
+label {
+  color: var(--muted) !important;
+}
+
+input,
+select,
+textarea {
+  background-color: #0f1114 !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary) !important;
+  background-color: #111317 !important;
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.4) !important;
+}
+
+/* Pills */
+
+.pill {
+  background-color: #0f1114 !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.pill:hover {
+  background-color: var(--primary-soft) !important;
+  border-color: var(--primary) !important;
+}
+
+/* Footer */
+
+.site-footer {
+  background-color: var(--surface) !important;
+  border-top: 1px solid var(--border) !important;
+}
+
+.footer-small {
+  color: var(--muted) !important;
+}
+
+/* Page subtitle + smaller text */
+
+.small-text,
+.page-subtitle,
+.card-link p {
+  color: var(--muted) !important;
+}
