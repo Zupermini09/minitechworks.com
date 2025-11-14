@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Printing – MiniTechWorks</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">M</span>
+      <span class="logo-text">MiniTechWorks</span>
+    </a>
+    <nav class="nav">
+      <a href="3d-print.html" class="active">3D Printing</a>
+      <a href="pc-builds.html">PC Builds</a>
+      <a href="wiki.html">Tutorials</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <h1>3D Printing Service – Scandinavia</h1>
+      <p class="page-subtitle">
+        Send your 3D model, pick material and colour, and get it printed and shipped to you.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-column">
+      <div>
+        <h2>Order a 3D Print</h2>
+        <p>
+          This form sends your request to my backend (once connected). I’ll review
+          your model, calculate price and shipping, and reply by email.
+        </p>
+        <form id="print-order-form" class="form" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="print-name">Full name</label>
+            <input id="print-name" name="name" type="text" required />
+          </div>
+
+          <div class="form-group">
+            <label for="print-email">Email</label>
+            <input id="print-email" name="email" type="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="print-country">Country</label>
+            <select id="print-country" name="country" required>
+              <option value="">Select your country</option>
+              <option value="Norway">Norway</option>
+              <option value="Sweden">Sweden</option>
+              <option value="Denmark">Denmark</option>
+              <option value="Finland">Finland</option>
+              <option value="Iceland">Iceland</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group-inline">
+            <div>
+              <label for="print-city">City</label>
+              <input id="print-city" name="city" type="text" required />
+            </div>
+            <div>
+              <label for="print-postcode">Postal code</label>
+              <input id="print-postcode" name="postcode" type="text" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Box size (shipping)</label>
+            <div class="pill-group">
+              <label class="pill">
+                <input type="radio" name="boxSize" value="Small" required />
+                <span>Small</span>
+              </label>
+              <label class="pill">
+                <input type="radio" name="boxSize" value="Medium" />
+                <span>Medium</span>
+              </label>
+              <label class="pill">
+                <input type="radio" name="boxSize" value="Large" />
+                <span>Large</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group-inline">
+            <div>
+              <label for="print-material">Material</label>
+              <select id="print-material" name="material" required>
+                <option value="">Choose material</option>
+                <option value="PLA">PLA</option>
+                <option value="PETG">PETG</option>
+                <option value="ABS">ABS</option>
+              </select>
+            </div>
+            <div>
+              <label for="print-colour">Colour</label>
+              <input id="print-colour" name="colour" type="text" placeholder="e.g. black, white, red" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="print-details">What is this part and how strong should it be?</label>
+            <textarea id="print-details" name="details" rows="4"
+              placeholder="Tell me what it is used for, size, and how strong it needs to be."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="print-file">3D file (STL/3MF/OBJ)</label>
+            <input id="print-file" name="file" type="file" accept=".stl,.3mf,.obj" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary">Send request</button>
+          <p id="print-order-message" class="form-message" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <aside class="side-panel card">
+        <h2>How it works</h2>
+        <ol class="simple-list">
+          <li>Fill in the form and upload your 3D model.</li>
+          <li>I check if it’s printable and estimate price + shipping.</li>
+          <li>You get an email with total cost and payment options.</li>
+          <li>After payment, I print, pack and ship it safely.</li>
+        </ol>
+        <p class="small-text">
+          Note: This is a hobby service. Delivery times can vary based on
+          printer load and your location.
+        </p>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© <span id="year"></span> MiniTechWorks. 3D printing service for Scandinavia.</p>
+  </div>
+</footer>
+
+<script src="scripts.js"></script>
+</body>
+</html>
