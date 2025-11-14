@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MiniTechWorks Admin</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+    margin: 0;
+    padding: 20px;
+  }
+
+  h1, h2 {
+    color: #58a6ff;
+  }
+
+  #login-box {
+    max-width: 350px;
+    margin: 100px auto;
+    padding: 20px;
+    background: #161b22;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  input[type="password"] {
+    width: 95%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+    border-radius: 5px;
+  }
+
+  button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #238636;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  button:hover {
+    background: #2ea043;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .table-box {
+    margin-bottom: 40px;
+    background: #161b22;
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+
+  th, td {
+    border: 1px solid #30363d;
+    padding: 8px;
+  }
+
+  th {
+    background: #21262d;
+  }
+
+  .delete-btn {
+    background: #da3633;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .delete-btn:hover {
+    background: #f85149;
+  }
+</style>
+
+</head>
+<body>
+
+<div id="login-box">
+  <h2>Admin Login</h2>
+  <p>Enter admin password:</p>
+  <input id="admin-pass" type="password" placeholder="Password" />
+  <button onclick="login()">Login</button>
+  <p id="login-error" style="color:red;"></p>
+</div>
+
+<div id="admin-panel" class="hidden">
+  <h1>MiniTechWorks Admin Dashboard</h1>
+
+  <div class="table-box">
+    <h2>3D Print Orders</h2>
+    <table id="print-orders-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Country</th>
+          <th>City</th>
+          <th>Box</th>
+          <th>Material</th>
+          <th>Details</th>
+          <th>File</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="table-box">
+    <h2>PC Build Requests</h2>
+    <table id="pc-builds-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Country</th>
+          <th>Budget</th>
+          <th>Use Case</th>
+          <th>Games</th>
+          <th>Preferences</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="table-box">
+    <h2>Contact Messages</h2>
+    <table id="contact-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Topic</th>
+          <th>Message</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+let ADMIN_PASSWORD = "";
+const API = "https://api.minitechworks.com/api/admin";
+
+function login() {
+  const pwd = document.getElementById("admin-pass").value;
+
+  fetch(API + "/print-orders", {
+    headers: { "x-admin-password": pwd }
+  })
+    .then(res => {
+      if (res.status === 401) {
+        document.getElementById("login-error").innerText = "Wrong password!";
+      } else {
+        ADMIN_PASSWORD = pwd;
+        document.getElementById("login-box").classList.add("hidden");
+        document.getElementById("admin-panel").classList.remove("hidden");
+        loadAllData();
+      }
+    });
+}
+
+function loadAllData() {
+  loadPrintOrders();
+  loadPCBuilds();
+  loadContactMessages();
+}
+
+// -----------------------
+// LOAD PRINT ORDERS
+// -----------------------
+function loadPrintOrders() {
+  fetch(API + "/print-orders", {
+    headers: { "x-admin-password": ADMIN_PASSWORD }
+  })
+    .then(res => res.json())
+    .then(rows => {
+      const tbody = document.querySelector("#print-orders-table tbody");
+      tbody.innerHTML = "";
+
+      rows.forEach(r => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${r.id}</td>
+          <td>${r.name}</td>
+          <td>${r.email}</td>
+          <td>${r.country}</td>
+          <td>${r.city}</td>
+          <td>${r.boxSize}</td>
+          <td>${r.material}</td>
+          <td>${r.details}</td>
+          <td>${r.fileName ? `<a href="https://api.minitechworks.com/uploads/${r.fileName}" target="_blank">Download</a>` : "None"}</td>
+          <td><span class="delete-btn" onclick="deletePrint(${r.id})">Delete</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    });
+}
+
+function deletePrint(id) {
+  fetch(API + "/print-orders/" + id, {
+    method: "DELETE",
+    headers: { "x-admin-password": ADMIN_PASSWORD }
+  }).then(() => loadPrintOrders());
+}
+
+// -----------------------
+// LOAD PC BUILDS
+// -----------------------
+function loadPCBuilds() {
+  fetch(API + "/pc-builds", {
+    headers: { "x-admin-password": ADMIN_PASSWORD }
+  })
+    .then(res => res.json())
+    .then(rows => {
+      const tbody = document.querySelector("#pc-builds-table tbody");
+      tbody.innerHTML = "";
+
+      rows.forEach(r => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${r.id}</td>
+          <td>${r.name}</td>
+          <td>${r.email}</td>
+          <td>${r.country}</td>
+          <td>${r.budget}</td>
+          <td>${r.useCase}</td>
+          <td>${r.games}</td>
+          <td>${r.preferences}</td>
+          <td><span class="delete-btn" onclick="deletePC(${r.id})">Delete</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    });
+}
+
+function deletePC(id) {
+  fetch(API + "/pc-builds/" + id, {
+    method: "DELETE",
+    headers: { "x-admin-password": ADMIN_PASSWORD }
+  }).then(() => loadPCBuilds());
+}
+
+// -----------------------
+// LOAD CONTACT MESSAGES
+// -----------------------
+function loadContactMessages() {
+  fetch(API + "/contact-messages", {
+    headers: { "x-admin-password": ADMIN_PASSWORD }
+  })
+    .then(res => res.json())
+    .then(rows => {
+      const tbody = document.querySelector("#contact-table tbody");
+      tbody.innerHTML = "";
+
+      rows.forEach(r => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${r.id}</td>
+          <td>${r.name}</td>
+          <td>${r.email}</td>
+          <td>${r.topic}</td>
+          <td>${r.message}</td>
+          <td><span class="delete-btn" onclick="deleteContact(${r.id})">Delete</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    });
+}
+
+function deleteContact(id) {
+  fetch(API + "/contact-messages/" + id, {
+    method: "DELETE",
+    headers: { "x-admin-password": ADMIN_PASSWORD }
+  }).then(() => loadContactMessages());
+}
+</script>
+
+</body>
+</html>
