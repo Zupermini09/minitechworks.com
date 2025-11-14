@@ -11,54 +11,110 @@ document.addEventListener("DOMContentLoaded", () => {
   setupContactForm();
 });
 
+// -----------------------------
+// 3D PRINT ORDER FORM
+// -----------------------------
 function setupPrintForm() {
   const form = document.getElementById("print-order-form");
   const messageEl = document.getElementById("print-order-message");
   if (!form || !messageEl) return;
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    // TODO: replace this with a real API call to your backend
-    // Example:
-    // const formData = new FormData(form);
-    // fetch("https://api.minitechworks.com/print-orders", {
-    //   method: "POST",
-    //   body: formData,
-    // }).then(...)
+    const formData = new FormData(form);
 
-    messageEl.textContent =
-      "Thank you! This would send your 3D print order to the server once the backend is connected.";
+    try {
+      const res = await fetch("https://api.minitechworks.com/api/print-orders", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        messageEl.textContent = "Your 3D print order was sent successfully!";
+        messageEl.style.color = "green";
+        form.reset();
+      } else {
+        messageEl.textContent = "Error sending your 3D print order.";
+        messageEl.style.color = "red";
+      }
+    } catch (err) {
+      messageEl.textContent = "Server error. Try again later.";
+      messageEl.style.color = "red";
+    }
   });
 }
 
+// -----------------------------
+// PC BUILD FORM
+// -----------------------------
 function setupPcBuildForm() {
   const form = document.getElementById("pc-build-form");
   const messageEl = document.getElementById("pc-build-message");
   if (!form || !messageEl) return;
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    // TODO: replace with real API call
-    // const data = Object.fromEntries(new FormData(form).entries());
-    // fetch("https://api.minitechworks.com/pc-builds", { ... })
+    const formData = new FormData(form);
 
-    messageEl.textContent =
-      "Thanks! This would send your PC build request to the backend once it is connected.";
+    try {
+      const res = await fetch("https://api.minitechworks.com/api/pc-builds", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        messageEl.textContent = "Your PC build request was submitted!";
+        messageEl.style.color = "green";
+        form.reset();
+      } else {
+        messageEl.textContent = "Error sending your PC build request.";
+        messageEl.style.color = "red";
+      }
+    } catch (err) {
+      messageEl.textContent = "Server error. Try again later.";
+      messageEl.style.color = "red";
+    }
   });
 }
 
+// -----------------------------
+// CONTACT FORM
+// -----------------------------
 function setupContactForm() {
   const form = document.getElementById("contact-form");
   const messageEl = document.getElementById("contact-message-info");
   if (!form || !messageEl) return;
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    // TODO: real API call later
-    messageEl.textContent =
-      "Your message would be sent to the server here. For now, you can contact me using the email or links in the future.";
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch("https://api.minitechworks.com/api/contact", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        messageEl.textContent = "Your message has been sent successfully!";
+        messageEl.style.color = "green";
+        form.reset();
+      } else {
+        messageEl.textContent = "Error sending your message.";
+        messageEl.style.color = "red";
+      }
+    } catch (err) {
+      messageEl.textContent = "Server error. Try again later.";
+      messageEl.style.color = "red";
+    }
   });
 }
