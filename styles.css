@@ -1,15 +1,17 @@
 :root {
   --primary: #3b82f6;
-  --primary-soft: #e0edff;
+  --primary-soft: rgba(59, 130, 246, 0.15);
   --primary-dark: #1d4ed8;
-  --bg: #f3f4f6;
-  --card-bg: #ffffff;
-  --text: #111827;
-  --muted: #6b7280;
-  --border: #e5e7eb;
+
+  --bg: #0d0f16;
+  --card-bg: #1a1d27;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #2a2e3a;
+
   --radius-lg: 16px;
   --radius-md: 10px;
-  --shadow-soft: 0 10px 25px rgba(15, 23, 42, 0.06);
+  --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 *,
@@ -50,7 +52,7 @@ body {
 /* Header */
 
 .site-header {
-  background-color: #ffffff;
+  background-color: #171a23;
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -109,13 +111,13 @@ body {
 
 .nav a:hover {
   background-color: var(--primary-soft);
-  color: var(--primary-dark);
+  color: var(--primary);
 }
 
 .nav a.active {
   border-color: var(--primary);
-  background-color: #eff6ff;
-  color: var(--primary-dark);
+  background-color: rgba(59,130,246,0.1);
+  color: var(--primary);
 }
 
 /* Hero */
@@ -148,7 +150,7 @@ body {
 }
 
 .hero-panel {
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   border-radius: var(--radius-lg);
   padding: 18px;
   box-shadow: var(--shadow-soft);
@@ -172,7 +174,7 @@ body {
   border-radius: var(--radius-md);
   padding: 14px 14px 16px;
   box-shadow: var(--shadow-soft);
-  border: 1px solid #e5e7f0;
+  border: 1px solid var(--border);
 }
 
 .card-link {
@@ -210,7 +212,7 @@ body {
   top: 10px;
   left: 14px;
   background-color: var(--primary-soft);
-  color: var(--primary-dark);
+  color: var(--primary);
   border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 600;
@@ -242,7 +244,7 @@ body {
 /* Forms */
 
 .form {
-  background-color: #ffffff;
+  background-color: #171a23;
   border-radius: var(--radius-lg);
   padding: 18px 16px 20px;
   box-shadow: var(--shadow-soft);
@@ -262,7 +264,7 @@ label {
   display: block;
   font-size: 0.85rem;
   margin-bottom: 4px;
-  color: #4b5563;
+  color: var(--muted);
 }
 
 input[type="text"],
@@ -276,7 +278,8 @@ textarea {
   border-radius: 8px;
   border: 1px solid var(--border);
   font: inherit;
-  background-color: #f9fafb;
+  background-color: #11131a;
+  color: var(--text);
 }
 
 input:focus,
@@ -284,7 +287,7 @@ select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--primary);
-  background-color: #ffffff;
+  background-color: #0e1017;
   box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.3);
 }
 
@@ -313,7 +316,8 @@ textarea {
   border: 1px solid var(--border);
   font-size: 0.85rem;
   cursor: pointer;
-  background-color: #f9fafb;
+  background-color: #11131a;
+  color: var(--text);
 }
 
 .pill input {
@@ -350,12 +354,12 @@ textarea {
 }
 
 .btn-secondary {
-  background-color: #e5edff;
-  color: var(--primary-dark);
+  background-color: rgba(59,130,246,0.15);
+  color: var(--primary);
 }
 
 .btn-secondary:hover {
-  background-color: #d4e1ff;
+  background-color: rgba(59,130,246,0.25);
 }
 
 /* Lists & side panels */
@@ -394,7 +398,7 @@ textarea {
 .site-footer {
   margin-top: 24px;
   border-top: 1px solid var(--border);
-  background-color: #ffffff;
+  background-color: #171a23;
 }
 
 .footer-inner {
