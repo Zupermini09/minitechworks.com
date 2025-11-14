@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PC Building – MiniTechWorks</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">M</span>
+      <span class="logo-text">MiniTechWorks</span>
+    </a>
+    <nav class="nav">
+      <a href="3d-print.html">3D Printing</a>
+      <a href="pc-builds.html" class="active">PC Builds</a>
+      <a href="wiki.html">Tutorials</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <h1>Custom PC Building – Scandinavia</h1>
+      <p class="page-subtitle">
+        Get a full build or just a parts list, designed for your games and budget.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-column">
+      <div>
+        <h2>Request a PC Build</h2>
+        <form id="pc-build-form" class="form">
+          <div class="form-group">
+            <label for="pc-name">Full name</label>
+            <input id="pc-name" name="name" type="text" required />
+          </div>
+
+          <div class="form-group">
+            <label for="pc-email">Email</label>
+            <input id="pc-email" name="email" type="email" required />
+          </div>
+
+          <div class="form-group-inline">
+            <div>
+              <label for="pc-country">Country</label>
+              <select id="pc-country" name="country" required>
+                <option value="">Select country</option>
+                <option value="Norway">Norway</option>
+                <option value="Sweden">Sweden</option>
+                <option value="Denmark">Denmark</option>
+                <option value="Finland">Finland</option>
+                <option value="Iceland">Iceland</option>
+              </select>
+            </div>
+            <div>
+              <label for="pc-budget">Budget (NOK)</label>
+              <input id="pc-budget" name="budget" type="number" min="3000" step="500" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>What do you want?</label>
+            <div class="pill-group">
+              <label class="pill">
+                <input type="radio" name="serviceType" value="plan" required />
+                <span>Build plan only</span>
+              </label>
+              <label class="pill">
+                <input type="radio" name="serviceType" value="full" />
+                <span>Full build + shipping</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>What will you use the PC for?</label>
+            <div class="pill-group pill-group-wrap">
+              <label class="pill">
+                <input type="checkbox" name="useCase" value="Gaming" />
+                <span>Gaming</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" name="useCase" value="Streaming" />
+                <span>Streaming</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" name="useCase" value="Editing" />
+                <span>Video editing</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" name="useCase" value="3D" />
+                <span>3D / CAD</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" name="useCase" value="School" />
+                <span>School / work</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="pc-games">Main games or programs</label>
+            <textarea id="pc-games" name="games" rows="3"
+              placeholder="Example: GTA V, Assetto Corsa, Fortnite, Blender, DaVinci Resolve, etc."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="pc-preferences">Brand preferences or parts to reuse</label>
+            <textarea id="pc-preferences" name="preferences" rows="3"
+              placeholder="Example: Prefer AMD CPU, reuse my 7800 XT, white case if possible."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Send request</button>
+          <p id="pc-build-message" class="form-message" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <aside class="side-panel card">
+        <h2>Service levels</h2>
+        <ul class="simple-list">
+          <li><strong>Build plan only:</strong> You get a full parts list with links.</li>
+          <li><strong>Full build:</strong> I order, assemble, test, and ship the PC.</li>
+          <li><strong>Scandinavia only:</strong> Insured shipping via PostNord/Posten.</li>
+        </ul>
+        <p class="small-text">
+          Important: Final prices depend on parts availability and shipping.
+          I’ll always confirm everything with you before you pay.
+        </p>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© <span id="year"></span> MiniTechWorks. PC builds for Scandinavia.</p>
+  </div>
+</footer>
+
+<script src="scripts.js"></script>
+</body>
+</html>
