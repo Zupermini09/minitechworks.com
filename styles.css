@@ -74,16 +74,12 @@ body {
   font-weight: 700;
 }
 
-.logo-mark {
+.logo-img {
   width: 32px;
   height: 32px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
+  object-fit: cover;
+  border-radius: 8px; /* optional rounded corners */
+  display: block;
 }
 
 .logo-text {
