@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact – MiniTechWorks</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">M</span>
+      <span class="logo-text">MiniTechWorks</span>
+    </a>
+    <nav class="nav">
+      <a href="3d-print.html">3D Printing</a>
+      <a href="pc-builds.html">PC Builds</a>
+      <a href="wiki.html">Tutorials</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <h1>Contact & About</h1>
+      <p class="page-subtitle">
+        Have a question, idea, or special request? Send a message and I’ll reply as soon as I can.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-column">
+      <div>
+        <h2>Send a message</h2>
+        <form id="contact-form" class="form">
+          <div class="form-group">
+            <label for="contact-name">Name</label>
+            <input id="contact-name" name="name" type="text" required />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-email">Email</label>
+            <input id="contact-email" name="email" type="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-topic">Topic</label>
+            <select id="contact-topic" name="topic">
+              <option value="">Choose a topic</option>
+              <option value="3d-print">3D printing</option>
+              <option value="pc-build">PC builds</option>
+              <option value="tutorial">Tutorials / wiki</option>
+              <option value="other">Something else</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" rows="4"
+              placeholder="Write your question or request here."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Send</button>
+          <p id="contact-message-info" class="form-message" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <aside class="side-panel card">
+        <h2>About MiniTechWorks</h2>
+        <p>
+          MiniTechWorks is run by Mini, a 15-year-old tech nerd who loves PC
+          building, 3D printing, and homelabs.
+        </p>
+        <p>
+          The goal is to offer simple, honest services and easy-to-follow
+          tutorials, without any dark patterns or confusing menus.
+        </p>
+        <p class="small-text">
+          If you are under 18, always ask a parent or guardian before ordering
+          anything or sending money online.
+        </p>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© <span id="year"></span> MiniTechWorks.</p>
+  </div>
+</footer>
+
+<script src="scripts.js"></script>
+</body>
+</html>
