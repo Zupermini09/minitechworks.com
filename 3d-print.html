@@ -54,7 +54,8 @@
         <input name="email" type="email" required>
 
         <label>3D Model Link (MakerWorld, Printables, Thingiverse, Google Drive, etc)</label>
-        <input name="fileLink" type="url" placeholder="https://makerworld.com/model/123..." required>
+        <input name="fileLink" type="text" inputmode="url" pattern="https?://.*" 
+               placeholder="https://makerworld.com/model/123..." required>
 
         <label>Material</label>
         <select name="material">
