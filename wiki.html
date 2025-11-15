@@ -4,12 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tutorials & Wiki – MiniTechWorks</title>
-
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.ico" />
-
-  <meta name="description" content="MiniTechWorks – 3D printing, PC builds, and simple tech tutorials in Scandinavia." />
+  <meta name="description" content="MiniTechWorks – 3D printing, PC builds, and tech tutorials." />
 </head>
 <body>
 
@@ -33,7 +31,7 @@
     <div class="container">
       <h1>Tutorials & Wiki</h1>
       <p class="page-subtitle">
-        Guides for PC, gaming, homelab, and small hacks. Simple, step-by-step, and easy to follow.
+        Articles, guides and helpful tips — automatically loaded from your CMS.
       </p>
     </div>
   </section>
@@ -41,59 +39,62 @@
   <section class="section">
     <div class="container">
 
-      <!-- Dynamic wiki articles -->
-      <div id="wiki-grid" class="wiki-grid">
-        <p class="small-text">Loading tutorials...</p>
+      <div id="wiki-container" class="wiki-grid">
+        <!-- Articles will load here -->
       </div>
 
-      <p class="small-text" style="margin-top: 20px;">
-        This page is powered by a backend, so tutorials can be added and edited without touching the HTML.
+      <p class="small-text" id="wiki-status">
+        Loading articles…
       </p>
+
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="container footer-inner">
-    <p>© <span id="year"></span> MiniTechWorks. Tutorials are for educational use only.</p>
+    <p>© <span id="year"></span> MiniTechWorks. Tutorials for educational use only.</p>
   </div>
 </footer>
 
 <script>
-async function loadTutorials() {
-  const container = document.getElementById("wiki-grid");
+// Update footer year
+document.getElementById("year").textContent = new Date().getFullYear();
 
-  try {
-    const res = await fetch("https://api.minitechworks.com/api/tutorials?populate=*");
-    const data = await res.json();
+// Fetch articles from CMS
+fetch("https://cms.minitechworks.com/api/articles")
+  .then(res => res.json())
+  .then(json => {
+    const grid = document.getElementById("wiki-container");
+    const status = document.getElementById("wiki-status");
 
-    container.innerHTML = ""; // remove 'loading...'
+    grid.innerHTML = "";
+    status.textContent = "";
 
-    data.data.forEach(item => {
-      const t = item.attributes;
+    if (!json.data || json.data.length === 0) {
+      status.textContent = "No articles yet.";
+      return;
+    }
 
-      container.innerHTML += `
+    json.data.forEach(item => {
+      const a = item.attributes;
+
+      grid.innerHTML += `
         <article class="card wiki-card">
-          <h2>${t.title}</h2>
-          <p>${t.short_description || ""}</p>
-          ${t.category ? `<p class="small-text">${t.category}</p>` : ""}
+          <h2>${a.title}</h2>
+          <p>${a.excerpt || "No description available."}</p>
+          <a href="wiki-article.html?slug=${a.slug}" class="small-text">
+            Read full article →
+          </a>
         </article>
       `;
     });
-
-    // If no tutorials exist yet:
-    if (data.data.length === 0) {
-      container.innerHTML = "<p class='small-text'>No tutorials yet. Add some in Strapi!</p>";
-    }
-
-  } catch (err) {
-    container.innerHTML = "<p class='small-text'>Failed to load tutorials.</p>";
-  }
-}
-
-loadTutorials();
+  })
+  .catch(error => {
+    document.getElementById("wiki-status").textContent =
+      "Failed to load articles. CMS might be offline.";
+  });
 </script>
 
-<script src="scripts.js"></script>
 </body>
 </html>
