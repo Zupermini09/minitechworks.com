@@ -3,122 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3D Printing Services – MiniTechWorks</title>
+  <title>3D Printing – MiniTechWorks</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.ico" />
-  <meta name="description" content="3D printing services by MiniTechWorks – small runs, custom parts and prototypes, priced fairly per gram." />
-
-  <style>
-    .page-hero {
-      padding: 40px 0 10px;
-    }
-    .page-hero h1 {
-      font-size: 2.4rem;
-      margin-bottom: 10px;
-    }
-    .page-hero p {
-      max-width: 700px;
-    }
-    .print-layout {
-      margin-top: 20px;
-      display: grid;
-      gap: 24px;
-      grid-template-columns: minmax(0, 2fr);
-    }
-    @media (min-width: 880px) {
-      .print-layout {
-        grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
-      }
-    }
-    .card {
-      background: #141414;
-      border-radius: 12px;
-      padding: 18px 18px 16px;
-      border: 1px solid #272727;
-    }
-    .card h2 {
-      margin-bottom: 10px;
-      font-size: 1.5rem;
-    }
-    .price-row strong {
-      color: #0a84ff;
-    }
-    .small-note {
-      font-size: 0.85rem;
-      opacity: 0.8;
-    }
-    .print-form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .print-form label {
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
-    .print-form input,
-    .print-form textarea,
-    .print-form select {
-      background: #151515;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 9px 10px;
-      color: #fff;
-      font: inherit;
-    }
-    .print-form textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-    .print-form button {
-      margin-top: 8px;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      background: #0a84ff;
-      color: #fff;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    .print-form button:hover {
-      opacity: 0.9;
-    }
-    .status-message {
-      margin-top: 10px;
-      font-size: 0.95rem;
-    }
-    .status-success {
-      color: #4caf50;
-    }
-    .status-error {
-      color: #ff5555;
-    }
-    .calc-wrapper {
-      margin-top: 10px;
-      padding: 14px;
-      background: #101010;
-      border-radius: 10px;
-      border: 1px solid #272727;
-      font-size: 0.95rem;
-    }
-    .calc-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 8px;
-    }
-    .calc-row input {
-      max-width: 130px;
-    }
-    .calc-result {
-      margin-top: 8px;
-      font-weight: 600;
-    }
-  </style>
+  <meta name="description" content="3D printing services at MiniTechWorks. Fair pricing per gram and fast replies." />
 </head>
 
 <body>
@@ -128,176 +17,135 @@
       <img src="favicon.png" class="logo-img" alt="Logo">
       <span class="logo-text">MiniTechWorks</span>
     </a>
-    <nav class="main-nav">
-      <a href="index.html">Home</a>
-      <a href="wiki.html">Wiki</a>
-      <a href="pc-builds.html">PC Builds</a>
+    <nav class="nav">
       <a href="3d-print.html" class="active">3D Printing</a>
+      <a href="pc-builds.html">PC Builds</a>
+      <a href="wiki.html">Tutorials</a>
       <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
 
 <main>
-  <section class="page-hero">
+  <section class="section">
     <div class="container">
-      <h1>3D Printing Services</h1>
+      <h1 class="section-title">3D Printing Service</h1>
       <p>
-        Custom prints, small runs and project parts priced fairly per gram.
-        I use high-quality filament and aim for clean, functional results.
+        Custom 3D prints priced fairly at <strong>0.40 NOK per gram</strong>.
+        Upload your STL link from MakerWorld, Printables, Thingiverse, Google Drive, etc.
       </p>
-    </div>
-  </section>
 
-  <section class="container">
-    <div class="print-layout">
+      <h2 class="section-title small">Estimated Cost</h2>
 
-      <article class="card">
-        <h2>Pricing</h2>
-        <p>
-          Filament cost is around <strong>0.20 NOK/g</strong>.
-        </p>
+      <label><strong>Estimated weight (grams)</strong></label>
+      <input id="gramsInput" type="number" class="input" value="60" min="1">
 
-        <p class="price-row">
-          <strong>My printing price: 0.40 NOK per gram</strong>
-        </p>
+      <p id="estimateText" class="form-status">Estimated: 24.00 NOK</p>
 
-        <p class="small-note">
-          Example: a 60 g print = 24 NOK<br>
-          Additional costs only apply for exotic materials, multi-filament prints or complex supports.
-        </p>
+      <hr class="divider">
 
-        <div class="calc-wrapper">
-          <strong>Estimate your cost:</strong>
-          <div class="calc-row">
-            <label for="grams-input">Weight (g)</label>
-            <input id="grams-input" type="number" min="1" value="60">
-          </div>
+      <h2 class="section-title">Request a 3D Print</h2>
 
-          <p id="calc-result" class="calc-result">Estimated total: 24.00 NOK</p>
+      <form id="printForm" class="form">
+        <label>Name</label>
+        <input name="name" type="text" required>
 
-          <p class="small-note">
-            The exact total will be confirmed after checking your STL model.
-          </p>
-        </div>
-      </article>
+        <label>Email</label>
+        <input name="email" type="email" required>
 
-      <article class="card">
-        <h2>Request a 3D Print</h2>
-        <p>
-          Send me your STL file link and details. I’ll calculate the weight, check printability,
-          and email you the final price.
-        </p>
+        <label>3D Model Link (MakerWorld, Printables, Thingiverse, Google Drive, etc)</label>
+        <input name="fileLink" type="url" placeholder="https://makerworld.com/model/123..." required>
 
-        <form id="print-form" class="print-form">
-          <label>Name</label>
-          <input name="name" type="text" required>
+        <label>Material</label>
+        <select name="material">
+          <option>PLA</option>
+          <option>PETG</option>
+          <option>ABS / ASA</option>
+          <option>TPU (flexible)</option>
+          <option>Other</option>
+        </select>
 
-          <label>Email</label>
-          <input name="email" type="email" required>
+        <label>Color</label>
+        <input name="color" type="text" placeholder="Black, White, Grey, Red, etc.">
 
-          <label>3D model link (MakerWorld / Printables / Thingiverse / Google Drive)</label>
-          <input name="fileLink" type="url" placeholder="https://makerworld.com/model/..." required>
+        <label>Estimated grams (optional)</label>
+        <input name="grams" type="number" min="1">
 
-          <label>Material</label>
-          <select name="material">
-            <option value="PLA" selected>PLA</option>
-            <option value="PETG">PETG</option>
-            <option value="ABS/ASA">ABS / ASA</option>
-            <option value="TPU">TPU (flexible)</option>
-            <option value="Other">Other</option>
-          </select>
+        <label>Notes</label>
+        <textarea name="notes" placeholder="Strength, infill, usage, tolerances, etc."></textarea>
 
-          <label>Preferred color</label>
-          <input name="color" type="text" placeholder="Black, white, grey, etc.">
+        <button type="submit" class="btn btn-primary">Send Request</button>
+      </form>
 
-          <label>Estimated weight (if known)</label>
-          <input name="grams" type="number" min="1" placeholder="Optional">
-
-          <label>Notes</label>
-          <textarea name="notes" placeholder="Where the part is used, strength needed, tolerances, infill, etc."></textarea>
-
-          <button type="submit" id="print-submit-btn">Send request</button>
-        </form>
-
-        <p id="print-status" class="status-message"></p>
-      </article>
-
+      <p id="printStatus" class="form-status"></p>
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="container footer-inner">
-    <p>© 2025 MiniTechWorks – Custom PCs &amp; 3D Printing in Scandinavia.</p>
+    <p>© <span id="year"></span> MiniTechWorks. Built by Mini.</p>
   </div>
 </footer>
 
-<script src="scripts.js"></script>
 <script>
   const WEBHOOK_B64 =
     "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
-  const PRINT_WEBHOOK_URL = atob(WEBHOOK_B64);
 
-  // Fixed price: 0.4 NOK per gram
-  const PRICE_PER_GRAM = 0.4;
+  const WEBHOOK_URL = atob(WEBHOOK_B64);
 
-  const gramsInput = document.getElementById("grams-input");
-  const calcResult = document.getElementById("calc-result");
+  // Calculator
+  const PRICE = 0.4;
+  const gramsInput = document.getElementById("gramsInput");
+  const estText = document.getElementById("estimateText");
 
   function updateEstimate() {
-    const grams = Number(gramsInput.value) || 0;
-    const total = grams * PRICE_PER_GRAM;
-    calcResult.textContent = "Estimated total: " + total.toFixed(2) + " NOK";
+    const g = Number(gramsInput.value) || 0;
+    estText.textContent = "Estimated: " + (g * PRICE).toFixed(2) + " NOK";
   }
-
   gramsInput.addEventListener("input", updateEstimate);
   updateEstimate();
 
-  const printForm = document.getElementById("print-form");
-  const printStatus = document.getElementById("print-status");
-  const printSubmitBtn = document.getElementById("print-submit-btn");
+  // Discord submit
+  document.getElementById("printForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-  printForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+    const form = new FormData(e.target);
+    const btn = e.target.querySelector("button");
+    const status = document.getElementById("printStatus");
 
-    printSubmitBtn.disabled = true;
-    printStatus.textContent = "";
+    btn.disabled = true;
+    status.textContent = "Sending...";
 
-    const formData = new FormData(printForm);
+    const content =
+      "🧱 **New 3D Print Request – MiniTechWorks**\n\n" +
+      "**Name:** " + form.get("name") + "\n" +
+      "**Email:** " + form.get("email") + "\n" +
+      "**Model Link:** " + form.get("fileLink") + "\n" +
+      "**Material:** " + form.get("material") + "\n" +
+      "**Color:** " + (form.get("color") || "N/A") + "\n" +
+      "**Estimated Weight:** " + (form.get("grams") || "N/A") + "\n" +
+      "**Notes:** " + (form.get("notes") || "N/A");
 
-    const payload = {
-      content:
-        "🧱 **New 3D Print Request – MiniTechWorks.com**\n\n" +
-        "**Name:** " + formData.get("name") + "\n" +
-        "**Email:** " + formData.get("email") + "\n" +
-        "**Model link:** " + formData.get("fileLink") + "\n" +
-        "**Material:** " + formData.get("material") + "\n" +
-        "**Color:** " + (formData.get("color") || "N/A") + "\n" +
-        "**Estimated grams:** " + (formData.get("grams") || "N/A") + "\n" +
-        "**Notes:** " + (formData.get("notes") || "N/A")
-    };
-
-    fetch(PRINT_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    })
-      .then(res => {
-        if (!res.ok) throw new Error();
-        printStatus.textContent = "Request sent successfully!";
-        printStatus.className = "status-message status-success";
-        printForm.reset();
-        updateEstimate();
-      })
-      .catch(() => {
-        printStatus.textContent = "Something went wrong. Try again.";
-        printStatus.className = "status-message status-error";
-      })
-      .finally(() => {
-        printSubmitBtn.disabled = false;
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content })
       });
+
+      status.textContent = "Request sent! I’ll get back to you soon.";
+      status.classList.add("success");
+      e.target.reset();
+      updateEstimate();
+    } catch {
+      status.textContent = "Something went wrong!";
+      status.classList.add("error");
+    }
+
+    btn.disabled = false;
   });
 </script>
+
 </body>
 </html>
