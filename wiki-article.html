@@ -10,8 +10,8 @@
   <link rel="icon" href="/favicon.png" />
 
   <style>
-    /* MAIN ARTICLE DESIGN */
 
+    /* MAIN ARTICLE DESIGN */
     .article-hero {
       text-align: center;
       max-width: 720px;
@@ -54,26 +54,39 @@
       margin-bottom: 16px;
     }
 
-    /* INFO + WARNING BLOCKS */
-
+    /* WARNING + INFO BOXES (LIGHT MODE) */
     .article-warning {
-      background: #fef3c7;
+      background: #fef3c7;          /* soft yellow */
       border-left: 4px solid #f59e0b;
       padding: 16px;
       border-radius: 12px;
       margin: 20px 0;
+      color: #78350f;               /* dark text */
     }
 
     .article-info {
-      background: #e0f2fe;
+      background: #e0f2fe;          /* soft blue */
       border-left: 4px solid #0284c7;
       padding: 16px;
       border-radius: 12px;
       margin: 20px 0;
+      color: #0c4a6e;
+    }
+
+    /* DARK MODE OVERRIDES — THESE FIX YOUR ISSUE */
+    .dark-mode .article-warning {
+      background: #7a2e0e;          /* deep warm brown/orange */
+      border-color: #fbbf24;        /* yellow border */
+      color: #fffaf0;               /* readable off-white */
+    }
+
+    .dark-mode .article-info {
+      background: #0f3b66;          /* deep navy blue */
+      border-color: #38bdf8;        /* cyan border */
+      color: #e0f7ff;               /* soft bright text */
     }
 
     /* LINKS */
-
     .article-body a {
       color: #3b82f6;
       font-weight: 600;
@@ -83,20 +96,6 @@
     .article-body a:hover {
       text-decoration: underline;
       color: #60a5fa;
-    }
-
-    /* DARK MODE FIXES */
-
-    .dark-mode .article-info {
-      background: #1e3a8a;
-      border-color: #3b82f6;
-      color: white;
-    }
-
-    .dark-mode .article-warning {
-      background: #7c2d12;
-      border-color: #fbbf24;
-      color: white;
     }
 
     .back-link {
@@ -208,7 +207,7 @@ fetch(`https://cms.minitechworks.com/articles?slug=${slug}`)
     // Convert line breaks
     html = html.replace(/\n/g, "<br>");
 
-    // Auto-detect plain URLs and make them clickable
+    // Auto-detect plain URLs
     html = html.replace(
       /((https?:\/\/)[^\s<]+)/g,
       '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
@@ -218,7 +217,7 @@ fetch(`https://cms.minitechworks.com/articles?slug=${slug}`)
     const content = document.getElementById("article-content");
     content.innerHTML = html;
 
-    // Make all links open in new tab (safety)
+    // Make all links open in new tab
     document.querySelectorAll(".article-body a").forEach(a => {
       a.target = "_blank";
       a.rel = "noopener noreferrer";
