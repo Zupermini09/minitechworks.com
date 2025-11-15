@@ -4,11 +4,55 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tutorials & Wiki – MiniTechWorks</title>
+
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dark.css">
-  <link rel="icon" href="/favicon.ico" />
-  <meta name="description" content="MiniTechWorks – 3D printing, PC builds, and tech tutorials." />
+  <link rel="icon" href="/favicon.png" />
+
+  <style>
+    /* Search bar */
+    #search-bar {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #1f2937;
+      color: white;
+      font-size: 1rem;
+    }
+
+    /* Category buttons */
+    .category-list {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 12px 0 20px;
+    }
+
+    .category-btn {
+      padding: 6px 14px;
+      font-size: 0.85rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #1f2937;
+      cursor: pointer;
+    }
+
+    .category-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary-dark);
+    }
+
+    /* Article image */
+    .wiki-card img {
+      width: 100%;
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
+
 <body>
 
 <header class="site-header">
@@ -39,65 +83,152 @@
   <section class="section">
     <div class="container">
 
-      <div id="wiki-container" class="wiki-grid">
-        <!-- Articles will load here -->
+      <!-- SEARCH BAR -->
+      <input id="search-bar" type="text" placeholder="Search articles…">
+
+      <!-- CATEGORY FILTERS -->
+      <div class="category-list" id="category-list">
+        <!-- Dynamic categories will appear here -->
       </div>
 
-      <p class="small-text" id="wiki-status">
-        Loading articles…
-      </p>
+      <p id="wiki-status" class="small-text">Loading articles…</p>
 
+      <div class="wiki-grid" id="wiki-container"></div>
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="container footer-inner">
-    <p>© <span id="year"></span> MiniTechWorks. Tutorials for educational use only.</p>
+    <p>© <span id="year"></span> MiniTechWorks.</p>
   </div>
 </footer>
 
 <script>
-// Update footer year
+// Footer
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Fetch articles from CMS
-<script>
-// Update footer year
-document.getElementById("year").textContent = new Date().getFullYear();
+let articles = [];       // Full list from CMS
+let filteredArticles = []; // Filtered by search + category
+let activeCategory = "all";
 
-// Fetch articles (Strapi v3 returns an ARRAY, not json.data)
+// Fetch articles from Strapi v3
 fetch("https://cms.minitechworks.com/articles")
   .then(res => res.json())
   .then(json => {
-    const grid = document.getElementById("wiki-container");
-    const status = document.getElementById("wiki-status");
-
-    grid.innerHTML = "";
-    status.textContent = "";
-
-    // Strapi v3 = array of objects
-    if (!Array.isArray(json) || json.length === 0) {
-      status.textContent = "No articles yet.";
+    if (!Array.isArray(json)) {
+      document.getElementById("wiki-status").textContent =
+        "CMS error: returned invalid data.";
       return;
     }
 
-    json.forEach(item => {
-      grid.innerHTML += `
-        <article class="card wiki-card">
-          <h2>${item.title}</h2>
-          <p>${item.excerpt || ""}</p>
-          <a href="wiki-article.html?slug=${item.slug}" class="small-text">
-            Read full article →
-          </a>
-        </article>
-      `;
-    });
+    articles = json;
+    filteredArticles = json;
+    document.getElementById("wiki-status").textContent = "";
+
+    renderCategories();
+    renderArticles();
   })
-  .catch(error => {
+  .catch(() => {
     document.getElementById("wiki-status").textContent =
       "Failed to load articles. CMS might be offline.";
   });
+
+// Render article cards
+function renderArticles() {
+  const grid = document.getElementById("wiki-container");
+  grid.innerHTML = "";
+
+  if (filteredArticles.length === 0) {
+    grid.innerHTML = "<p>No articles found.</p>";
+    return;
+  }
+
+  filteredArticles.forEach(item => {
+    const imgHtml = item.image ? 
+      `<img src="https://cms.minitechworks.com${item.image.url}" alt="Article Image">`
+      : "";
+
+    grid.innerHTML += `
+      <article class="card wiki-card">
+        ${imgHtml}
+        <h2>${item.title}</h2>
+        <p>${item.excerpt || ""}</p>
+        <a href="wiki-article.html?slug=${item.slug}" class="small-text">
+          Read full article →
+        </a>
+      </article>
+    `;
+  });
+}
+
+// Search system
+document.getElementById("search-bar").addEventListener("input", e => {
+  const text = e.target.value.toLowerCase();
+
+  filteredArticles = articles.filter(a =>
+    a.title.toLowerCase().includes(text) ||
+    (a.excerpt && a.excerpt.toLowerCase().includes(text)) ||
+    (a.content && a.content.toLowerCase().includes(text))
+  );
+
+  if (activeCategory !== "all") {
+    filteredArticles = filteredArticles.filter(a =>
+      a.category && a.category.toLowerCase() === activeCategory
+    );
+  }
+
+  renderArticles();
+});
+
+// Category system
+function renderCategories() {
+  const list = document.getElementById("category-list");
+  list.innerHTML = "";
+
+  const cats = [...new Set(articles.map(a => a.category).filter(Boolean))];
+
+  // Always include "All"
+  list.innerHTML += `<button class="category-btn active" data-cat="all">All</button>`;
+
+  cats.forEach(cat => {
+    list.innerHTML += `
+      <button class="category-btn" data-cat="${cat.toLowerCase()}">${cat}</button>
+    `;
+  });
+
+  document.querySelectorAll(".category-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+
+      btn.classList.add("active");
+      activeCategory = btn.dataset.cat;
+
+      filterByCategory();
+    });
+  });
+}
+
+function filterByCategory() {
+  let result = articles;
+
+  if (activeCategory !== "all") {
+    result = result.filter(a =>
+      a.category && a.category.toLowerCase() === activeCategory
+    );
+  }
+
+  // Apply search filter again
+  const text = document.getElementById("search-bar").value.toLowerCase();
+
+  filteredArticles = result.filter(a =>
+    a.title.toLowerCase().includes(text) ||
+    (a.excerpt && a.excerpt.toLowerCase().includes(text)) ||
+    (a.content && a.content.toLowerCase().includes(text))
+  );
+
+  renderArticles();
+}
 </script>
 
 </body>
