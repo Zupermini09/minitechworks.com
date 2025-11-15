@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Article – MiniTechWorks</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="dark.css">
+  <link rel="icon" href="/favicon.png" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo">
+      <img src="favicon.png" class="logo-img" alt="Logo">
+      <span class="logo-text">MiniTechWorks</span>
+    </a>
+    <nav class="nav">
+      <a href="3d-print.html">3D Printing</a>
+      <a href="pc-builds.html">PC Builds</a>
+      <a href="wiki.html" class="active">Tutorials</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <h1 id="article-title">Loading...</h1>
+      <p id="article-subtitle" class="page-subtitle"></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <article id="article-content" class="card" style="padding: 20px;">
+        <p>Loading article…</p>
+      </article>
+
+      <p style="margin-top: 20px;">
+        <a href="wiki.html" class="small-text">← Back to all articles</a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>© <span id="year"></span> MiniTechWorks.</p>
+  </div>
+</footer>
+
+<script>
+// Footer year
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Get slug from URL
+const params = new URLSearchParams(window.location.search);
+const slug = params.get("slug");
+
+// If no slug → redirect
+if (!slug) {
+  document.getElementById("article-title").textContent = "Article Not Found";
+  document.getElementById("article-content").textContent =
+    "No article selected.";
+  throw new Error("Missing slug");
+}
+
+// Fetch single article by slug (Strapi v3)
+fetch(`https://cms.minitechworks.com/articles?slug=${slug}`)
+  .then(res => res.json())
+  .then(json => {
+    if (!Array.isArray(json) || json.length === 0) {
+      document.getElementById("article-title").textContent = "Not Found";
+      document.getElementById("article-content").textContent =
+        "This article does not exist.";
+      return;
+    }
+
+    const article = json[0];
+
+    // Fill page
+    document.title = `${article.title} – MiniTechWorks`;
+    document.getElementById("article-title").textContent = article.title;
+    document.getElementById("article-subtitle").textContent =
+      article.excerpt || "";
+
+    // Convert text with line breaks
+    let htmlContent = article.content
+      .replace(/\n/g, "<br>")
+      .replace(/ {2}/g, "&nbsp;&nbsp;");
+
+    document.getElementById("article-content").innerHTML = htmlContent;
+  })
+  .catch(() => {
+    document.getElementById("article-title").textContent =
+      "Failed to load article";
+    document.getElementById("article-content").textContent =
+      "CMS may be offline.";
+  });
+</script>
+
+</body>
+</html>
