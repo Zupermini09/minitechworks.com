@@ -62,6 +62,11 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
 // Fetch articles from CMS
+<script>
+// Update footer year
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Fetch articles (Strapi v3 returns an ARRAY, not json.data)
 fetch("https://cms.minitechworks.com/articles")
   .then(res => res.json())
   .then(json => {
@@ -71,19 +76,18 @@ fetch("https://cms.minitechworks.com/articles")
     grid.innerHTML = "";
     status.textContent = "";
 
-    if (!json.data || json.data.length === 0) {
+    // Strapi v3 = array of objects
+    if (!Array.isArray(json) || json.length === 0) {
       status.textContent = "No articles yet.";
       return;
     }
 
-    json.data.forEach(item => {
-      const a = item.attributes;
-
+    json.forEach(item => {
       grid.innerHTML += `
         <article class="card wiki-card">
-          <h2>${a.title}</h2>
-          <p>${a.excerpt || "No description available."}</p>
-          <a href="wiki-article.html?slug=${a.slug}" class="small-text">
+          <h2>${item.title}</h2>
+          <p>${item.excerpt || ""}</p>
+          <a href="wiki-article.html?slug=${item.slug}" class="small-text">
             Read full article →
           </a>
         </article>
