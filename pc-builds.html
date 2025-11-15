@@ -3,11 +3,135 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PC Building – MiniTechWorks</title>
+  <title>PC Building Services – MiniTechWorks</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.ico" />
-  <meta name="description" content="MiniTechWorks – 3D printing, PC builds, and simple tech tutorials in Scandinavia." />
+  <meta name="description" content="Custom PC planning and PC building services by MiniTechWorks – gaming, workstations, and homelab rigs in Scandinavia." />
+
+  <style>
+    /* Page-specific styling so we don't touch your global CSS */
+    .page-hero {
+      padding: 40px 0 10px;
+    }
+    .page-hero h1 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+    .page-hero p {
+      max-width: 700px;
+    }
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+    .service-card {
+      background: #141414;
+      border-radius: 12px;
+      padding: 18px 18px 16px;
+      border: 1px solid #272727;
+    }
+    .service-card h2 {
+      margin-bottom: 8px;
+      font-size: 1.5rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+      background: #222;
+      border: 1px solid #333;
+    }
+    .price-tag {
+      font-weight: 600;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+    .small-note {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+    .pc-form-section {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #272727;
+      background: #101010;
+    }
+    .pc-form-section h2 {
+      margin-bottom: 8px;
+    }
+    .pc-form-section p {
+      margin-bottom: 18px;
+      max-width: 700px;
+    }
+    .pc-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 640px;
+    }
+    .pc-form label {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    .pc-form input,
+    .pc-form textarea,
+    .pc-form select {
+      background: #151515;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 9px 10px;
+      color: #fff;
+      font: inherit;
+    }
+    .pc-form textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+    .pc-form button {
+      margin-top: 8px;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: #0a84ff;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .pc-form button:hover {
+      opacity: 0.9;
+    }
+    .status-message {
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+    .status-success {
+      color: #4caf50;
+    }
+    .status-error {
+      color: #ff5555;
+    }
+    .info-box {
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #151515;
+      border: 1px solid #333;
+      font-size: 0.9rem;
+    }
+    .info-box strong {
+      color: #0a84ff;
+    }
+  </style>
 </head>
 <body>
 <header class="site-header">
@@ -16,10 +140,11 @@
       <img src="favicon.png" class="logo-img" alt="Logo">
       <span class="logo-text">MiniTechWorks</span>
     </a>
-    <nav class="nav">
-      <a href="3d-print.html">3D Printing</a>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="wiki.html">Wiki</a>
       <a href="pc-builds.html" class="active">PC Builds</a>
-      <a href="wiki.html">Tutorials</a>
+      <a href="3d-print.html">3D Printing</a>
       <a href="contact.html">Contact</a>
     </nav>
   </div>
@@ -28,124 +153,153 @@
 <main>
   <section class="page-hero">
     <div class="container">
-      <h1>Custom PC Building – Scandinavia</h1>
-      <p class="page-subtitle">
-        Get a full build or just a parts list, designed for your games and budget.
+      <h1>PC Building Services</h1>
+      <p>
+        I help you plan and build your next gaming PC, workstation or homelab rig.
+        You tell me your budget and preferences – I handle the parts list and the details.
       </p>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container two-column">
-      <div>
-        <h2>Request a PC Build</h2>
-        <form id="pc-build-form" class="form">
-          <div class="form-group">
-            <label for="pc-name">Full name</label>
-            <input id="pc-name" name="name" type="text" required />
-          </div>
-
-          <div class="form-group">
-            <label for="pc-email">Email</label>
-            <input id="pc-email" name="email" type="email" required />
-          </div>
-
-          <div class="form-group-inline">
-            <div>
-              <label for="pc-country">Country</label>
-              <select id="pc-country" name="country" required>
-                <option value="">Select country</option>
-                <option value="Norway">Norway</option>
-                <option value="Sweden">Sweden</option>
-                <option value="Denmark">Denmark</option>
-                <option value="Finland">Finland</option>
-              </select>
-            </div>
-            <div>
-              <label for="pc-budget">Budget (NOK)</label>
-              <input id="pc-budget" name="budget" type="number" min="3000" step="500" required />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>What do you want?</label>
-            <div class="pill-group">
-              <label class="pill">
-                <input type="radio" name="serviceType" value="plan" required />
-                <span>Build plan only</span>
-              </label>
-              <label class="pill">
-                <input type="radio" name="serviceType" value="full" />
-                <span>Full build + shipping</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>What will you use the PC for?</label>
-            <div class="pill-group pill-group-wrap">
-              <label class="pill">
-                <input type="checkbox" name="useCase" value="Gaming" />
-                <span>Gaming</span>
-              </label>
-              <label class="pill">
-                <input type="checkbox" name="useCase" value="Streaming" />
-                <span>Streaming</span>
-              </label>
-              <label class="pill">
-                <input type="checkbox" name="useCase" value="Editing" />
-                <span>Video editing</span>
-              </label>
-              <label class="pill">
-                <input type="checkbox" name="useCase" value="3D" />
-                <span>3D / CAD</span>
-              </label>
-              <label class="pill">
-                <input type="checkbox" name="useCase" value="School" />
-                <span>School / work</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="pc-games">Main games or programs</label>
-            <textarea id="pc-games" name="games" rows="3"
-              placeholder="Example: GTA V, Assetto Corsa, Fortnite, Blender, DaVinci Resolve, etc."></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="pc-preferences">Brand preferences or parts to reuse</label>
-            <textarea id="pc-preferences" name="preferences" rows="3"
-              placeholder="Example: Prefer AMD CPU, reuse my 7800 XT, white case if possible."></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary">Send request</button>
-          <p id="pc-build-message" class="form-message" aria-live="polite"></p>
-        </form>
-      </div>
-
-      <aside class="side-panel card">
-        <h2>Service levels</h2>
-        <ul class="simple-list">
-          <li><strong>Build plan only:</strong> You get a full parts list with links.</li>
-          <li><strong>Full build:</strong> I order, assemble, test, and ship the PC.</li>
-          <li><strong>Scandinavia only:</strong> Insured shipping via PostNord/Posten.</li>
-        </ul>
-        <p class="small-text">
-          Important: Final prices depend on parts availability and shipping.
-          I’ll always confirm everything with you before you pay.
+  <section class="container">
+    <div class="service-grid">
+      <article class="service-card">
+        <span class="badge">PC Planning</span>
+        <h2>PC Part List Planning</h2>
+        <p>
+          You tell me your budget and what you want to play or work with. I send you a
+          complete PCPartPicker list with compatible parts, tuned to your color theme and preferences.
         </p>
-      </aside>
+        <p class="price-tag">
+          Typical fee: 59–99 NOK (flat)  
+        </p>
+        <p class="small-note">
+          You buy the parts yourself from your preferred store (Komplett, Proshop, etc.).
+        </p>
+      </article>
+
+      <article class="service-card">
+        <span class="badge">Custom Build</span>
+        <h2>Custom PC Quote (Parts + Build)</h2>
+        <p>
+          You give me a budget and preferences. I pick all parts, calculate a full quote, and
+          optionally include a build service price and shipping if I’m building it for you.
+        </p>
+        <p class="price-tag">
+          Example breakdown:
+        </p>
+        <p class="small-note">
+          PC parts: 12&nbsp;000 NOK<br>
+          Build service: 759 NOK<br>
+          Shipping: 259 NOK<br>
+          <strong>Total: 13&nbsp;018 NOK</strong>
+        </p>
+      </article>
     </div>
+
+    <section class="pc-form-section" id="quote">
+      <h2>Request a PC Build or Planning Quote</h2>
+      <p>
+        Fill out this form and I’ll email you back with a detailed parts list and price breakdown
+        (parts, build service, and shipping if needed). The request is non-binding.
+      </p>
+
+      <form id="pc-service-form" class="pc-form">
+        <label for="pc-name">Name</label>
+        <input id="pc-name" name="name" type="text" required>
+
+        <label for="pc-email">Email</label>
+        <input id="pc-email" name="email" type="email" required>
+
+        <label for="pc-service-type">Service type</label>
+        <select id="pc-service-type" name="serviceType" required>
+          <option value="PC Planning (parts list only)">PC Planning – parts list only (PCPartPicker)</option>
+          <option value="Custom PC (parts + build quote)">Custom PC – parts + build quote</option>
+        </select>
+
+        <label for="pc-budget">Budget (NOK)</label>
+        <input id="pc-budget" name="budget" type="number" min="1" required>
+
+        <label for="pc-colors">Preferred colors / theme</label>
+        <input id="pc-colors" name="colors" type="text" placeholder="Black/white, RGB, stealth, etc.">
+
+        <label for="pc-preferences">Preferences</label>
+        <textarea id="pc-preferences" name="preferences" placeholder="AMD or Intel, NVIDIA/AMD GPU, quiet, airflow, specific brands…"></textarea>
+
+        <label for="pc-notes">Extra notes</label>
+        <textarea id="pc-notes" name="notes" placeholder="Anything special you want (games, streaming, editing, homelab, etc.)"></textarea>
+
+        <button type="submit" id="pc-submit-btn">Send request</button>
+      </form>
+
+      <p id="pc-status" class="status-message"></p>
+
+      <div class="info-box">
+        <strong>How payment works:</strong><br>
+        After I send you the quote and you approve it, I’ll send a payment link with the exact total.
+      </div>
+    </section>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="container footer-inner">
-    <p>© <span id="year"></span> MiniTechWorks. PC builds for Scandinavia.</p>
+    <p>© 2025 MiniTechWorks – Custom PCs &amp; 3D printing in Scandinavia.</p>
   </div>
 </footer>
 
 <script src="scripts.js"></script>
+<script>
+  // Decode Base64 webhook once and reuse
+  const WEBHOOK_B64 = "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
+  const PC_WEBHOOK_URL = atob(WEBHOOK_B64);
+
+  const pcForm = document.getElementById("pc-service-form");
+  const pcStatus = document.getElementById("pc-status");
+  const pcSubmitBtn = document.getElementById("pc-submit-btn");
+
+  if (pcForm) {
+    pcForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      pcStatus.textContent = "";
+      pcStatus.className = "status-message";
+      pcSubmitBtn.disabled = true;
+
+      const formData = new FormData(pcForm);
+
+      const payload = {
+        content:
+          "🖥️ **New PC Service Request – MiniTechWorks.com**\n\n" +
+          "**Name:** " + (formData.get("name") || "N/A") + "\n" +
+          "**Email:** " + (formData.get("email") || "N/A") + "\n" +
+          "**Service type:** " + (formData.get("serviceType") || "N/A") + "\n" +
+          "**Budget:** " + (formData.get("budget") || "N/A") + " NOK\n" +
+          "**Colors:** " + (formData.get("colors") || "N/A") + "\n" +
+          "**Preferences:** " + (formData.get("preferences") || "N/A") + "\n" +
+          "**Notes:** " + (formData.get("notes") || "N/A")
+      };
+
+      fetch(PC_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error("Request failed");
+        pcStatus.textContent = "Request sent successfully! I’ll get back to you on email.";
+        pcStatus.className = "status-message status-success";
+        pcForm.reset();
+      })
+      .catch(function () {
+        pcStatus.textContent = "Something went wrong. Please try again in a bit.";
+        pcStatus.className = "status-message status-error";
+      })
+      .finally(function () {
+        pcSubmitBtn.disabled = false;
+      });
+    });
+  }
+</script>
 </body>
 </html>
