@@ -47,11 +47,29 @@
       <p>Fill out the form below and I will reply to your email with the full price breakdown.</p>
 
       <form id="pcForm" class="form">
+
         <label>Name</label>
         <input name="name" type="text" required>
 
         <label>Email</label>
         <input name="email" type="email" required>
+
+        <label>Country</label>
+        <select name="country" required>
+          <option value="Norway">Norway</option>
+          <option value="Sweden">Sweden</option>
+          <option value="Denmark">Denmark</option>
+          <option value="Finland">Finland</option>
+        </select>
+
+        <label>Street Address</label>
+        <input name="street" type="text" placeholder="Street and house number" required>
+
+        <label>Postcode</label>
+        <input name="postcode" type="text" placeholder="Postcode" required>
+
+        <label>City</label>
+        <input name="city" type="text" placeholder="City" required>
 
         <label>Service Type</label>
         <select name="serviceType">
@@ -105,6 +123,10 @@
       "🖥️ **New PC Build Request – MiniTechWorks**\n\n" +
       "**Name:** " + form.get("name") + "\n" +
       "**Email:** " + form.get("email") + "\n" +
+      "**Country:** " + form.get("country") + "\n" +
+      "**Street:** " + form.get("street") + "\n" +
+      "**Postcode:** " + form.get("postcode") + "\n" +
+      "**City:** " + form.get("city") + "\n" +
       "**Service:** " + form.get("serviceType") + "\n" +
       "**Budget:** " + form.get("budget") + " NOK\n" +
       "**Colors:** " + (form.get("colors") || "N/A") + "\n" +
