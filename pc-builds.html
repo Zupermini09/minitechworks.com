@@ -122,17 +122,20 @@
     const content =
       "🖥️ **New PC Build Request – MiniTechWorks**\n\n" +
       "**Name:** " + form.get("name") + "\n" +
-      "**Email:** " + form.get("email") + "\n" +
-      "**Country:** " + form.get("country") + "\n" +
-      "**Street:** " + form.get("street") + "\n" +
-      "**Postcode:** " + form.get("postcode") + "\n" +
-      "**City:** " + form.get("city") + "\n" +
+      "**Email:** " + form.get("email") + "\n\n" +
+
+      "**Shipping Address**\n" +
+      "- " + form.get("country") + "\n" +
+      "- " + form.get("street") + "\n" +
+      "- " + form.get("postcode") + " " + form.get("city") + "\n\n" +
+
       "**Service:** " + form.get("serviceType") + "\n" +
       "**Budget:** " + form.get("budget") + " NOK\n" +
       "**Colors:** " + (form.get("colors") || "N/A") + "\n" +
-      "**Preferences:** " + (form.get("preferences") || "N/A") + "\n" +
-      "**Notes:** " + (form.get("notes") || "N/A");
+      "**Preferences:** " + (form.get("preferences") || "N/A") + "\n\n" +
 
+      "**Notes:** " + (form.get("notes") || "N/A");
+    
     try {
       await fetch(WEBHOOK_URL, {
         method: "POST",
