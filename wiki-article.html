@@ -4,10 +4,90 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Article – MiniTechWorks</title>
+
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.png" />
+
+  <style>
+    /* Better article styling */
+    .article-hero {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 30px;
+    }
+
+    .article-cover {
+      width: 100%;
+      max-width: 900px;
+      margin: 20px auto;
+      display: block;
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .article-body {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 24px 24px 36px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    /* Render headings nicely */
+    .article-body h2 {
+      margin-top: 28px;
+      font-size: 1.5rem;
+    }
+
+    .article-body h3 {
+      margin-top: 20px;
+      font-size: 1.25rem;
+    }
+
+    /* Lists look cleaner */
+    .article-body ol,
+    .article-body ul {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    /* Notes / warning blocks */
+    .article-note,
+    .article-warning {
+      padding: 16px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+
+    .article-note {
+      background: #e0f2fe;
+      border-left: 4px solid #0284c7;
+    }
+
+    .article-warning {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+    }
+
+    /* Back link */
+    .back-link {
+      display: inline-block;
+      margin: 24px 0;
+      font-size: 0.9rem;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
+
 <body>
 
 <header class="site-header">
@@ -26,22 +106,25 @@
 </header>
 
 <main>
-  <section class="page-hero">
-    <div class="container">
-      <h1 id="article-title">Loading...</h1>
-      <p id="article-subtitle" class="page-subtitle"></p>
-    </div>
-  </section>
-
   <section class="section">
     <div class="container">
-      <article id="article-content" class="card" style="padding: 20px;">
+
+      <!-- HERO -->
+      <div class="article-hero">
+        <h1 id="article-title">Loading…</h1>
+        <p id="article-subtitle" class="small-text"></p>
+      </div>
+
+      <!-- COVER IMAGE -->
+      <img id="article-cover" class="article-cover" style="display:none;">
+
+      <!-- ARTICLE BODY -->
+      <article id="article-content" class="article-body">
         <p>Loading article…</p>
       </article>
 
-      <p style="margin-top: 20px;">
-        <a href="wiki.html" class="small-text">← Back to all articles</a>
-      </p>
+      <a href="wiki.html" class="back-link">← Back to all articles</a>
+
     </div>
   </section>
 </main>
@@ -53,14 +136,11 @@
 </footer>
 
 <script>
-// Footer year
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Get slug from URL
 const params = new URLSearchParams(window.location.search);
 const slug = params.get("slug");
 
-// If no slug → redirect
 if (!slug) {
   document.getElementById("article-title").textContent = "Article Not Found";
   document.getElementById("article-content").textContent =
@@ -68,7 +148,6 @@ if (!slug) {
   throw new Error("Missing slug");
 }
 
-// Fetch single article by slug (Strapi v3)
 fetch(`https://cms.minitechworks.com/articles?slug=${slug}`)
   .then(res => res.json())
   .then(json => {
@@ -81,24 +160,27 @@ fetch(`https://cms.minitechworks.com/articles?slug=${slug}`)
 
     const article = json[0];
 
-    // Fill page
     document.title = `${article.title} – MiniTechWorks`;
     document.getElementById("article-title").textContent = article.title;
-    document.getElementById("article-subtitle").textContent =
-      article.excerpt || "";
+    document.getElementById("article-subtitle").textContent = article.excerpt || "";
 
-    // Convert text with line breaks
-    let htmlContent = article.content
+    if (article.image) {
+      const cover = document.getElementById("article-cover");
+      cover.src = "https://cms.minitechworks.com" + article.image.url;
+      cover.style.display = "block";
+    }
+
+    // Render content
+    let html = article.content
       .replace(/\n/g, "<br>")
       .replace(/ {2}/g, "&nbsp;&nbsp;");
 
-    document.getElementById("article-content").innerHTML = htmlContent;
+    document.getElementById("article-content").innerHTML = html;
   })
   .catch(() => {
-    document.getElementById("article-title").textContent =
-      "Failed to load article";
+    document.getElementById("article-title").textContent = "Error loading article";
     document.getElementById("article-content").textContent =
-      "CMS may be offline.";
+      "CMS seems offline.";
   });
 </script>
 
