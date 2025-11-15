@@ -10,7 +10,8 @@
   <link rel="icon" href="/favicon.png" />
 
   <style>
-    /* Better article styling */
+    /* MAIN ARTICLE DESIGN */
+
     .article-hero {
       text-align: center;
       max-width: 720px;
@@ -37,7 +38,6 @@
       font-size: 1rem;
     }
 
-    /* Render headings nicely */
     .article-body h2 {
       margin-top: 28px;
       font-size: 1.5rem;
@@ -48,32 +48,57 @@
       font-size: 1.25rem;
     }
 
-    /* Lists look cleaner */
     .article-body ol,
     .article-body ul {
       padding-left: 20px;
       margin-bottom: 16px;
     }
 
-    /* Notes / warning blocks */
-    .article-note,
+    /* INFO + WARNING BLOCKS */
+
     .article-warning {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
       padding: 16px;
       border-radius: 12px;
       margin: 20px 0;
     }
 
-    .article-note {
+    .article-info {
       background: #e0f2fe;
       border-left: 4px solid #0284c7;
+      padding: 16px;
+      border-radius: 12px;
+      margin: 20px 0;
     }
 
-    .article-warning {
-      background: #fef3c7;
-      border-left: 4px solid #f59e0b;
+    /* LINKS */
+
+    .article-body a {
+      color: #3b82f6;
+      font-weight: 600;
+      text-decoration: none;
     }
 
-    /* Back link */
+    .article-body a:hover {
+      text-decoration: underline;
+      color: #60a5fa;
+    }
+
+    /* DARK MODE FIXES */
+
+    .dark-mode .article-info {
+      background: #1e3a8a;
+      border-color: #3b82f6;
+      color: white;
+    }
+
+    .dark-mode .article-warning {
+      background: #7c2d12;
+      border-color: #fbbf24;
+      color: white;
+    }
+
     .back-link {
       display: inline-block;
       margin: 24px 0;
@@ -81,7 +106,6 @@
       color: var(--primary);
       text-decoration: none;
     }
-
     .back-link:hover {
       text-decoration: underline;
     }
@@ -109,16 +133,13 @@
   <section class="section">
     <div class="container">
 
-      <!-- HERO -->
       <div class="article-hero">
         <h1 id="article-title">Loading…</h1>
         <p id="article-subtitle" class="small-text"></p>
       </div>
 
-      <!-- COVER IMAGE -->
       <img id="article-cover" class="article-cover" style="display:none;">
 
-      <!-- ARTICLE BODY -->
       <article id="article-content" class="article-body">
         <p>Loading article…</p>
       </article>
@@ -136,6 +157,7 @@
 </footer>
 
 <script>
+// Footer year
 document.getElementById("year").textContent = new Date().getFullYear();
 
 const params = new URLSearchParams(window.location.search);
@@ -148,6 +170,7 @@ if (!slug) {
   throw new Error("Missing slug");
 }
 
+// Fetch from Strapi v3
 fetch(`https://cms.minitechworks.com/articles?slug=${slug}`)
   .then(res => res.json())
   .then(json => {
@@ -170,17 +193,41 @@ fetch(`https://cms.minitechworks.com/articles?slug=${slug}`)
       cover.style.display = "block";
     }
 
-    // Render content
-    let html = article.content
-      .replace(/\n/g, "<br>")
-      .replace(/ {2}/g, "&nbsp;&nbsp;");
+    let html = article.content;
 
-    document.getElementById("article-content").innerHTML = html;
+    // Replace [warning]...[/warning]
+    html = html.replace(/\[warning\]([\s\S]*?)\[\/warning\]/gi, 
+      '<div class="article-warning">$1</div>'
+    );
+
+    // Replace [info]...[/info]
+    html = html.replace(/\[info\]([\s\S]*?)\[\/info\]/gi, 
+      '<div class="article-info">$1</div>'
+    );
+
+    // Convert line breaks
+    html = html.replace(/\n/g, "<br>");
+
+    // Auto-detect plain URLs and make them clickable
+    html = html.replace(
+      /((https?:\/\/)[^\s<]+)/g,
+      '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+    );
+
+    // Insert HTML
+    const content = document.getElementById("article-content");
+    content.innerHTML = html;
+
+    // Make all links open in new tab (safety)
+    document.querySelectorAll(".article-body a").forEach(a => {
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+    });
   })
   .catch(() => {
     document.getElementById("article-title").textContent = "Error loading article";
     document.getElementById("article-content").textContent =
-      "CMS seems offline.";
+      "CMS appears to be offline.";
   });
 </script>
 
