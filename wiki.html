@@ -62,7 +62,7 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
 // Fetch articles from CMS
-fetch("https://cms.minitechworks.com/api/articles")
+fetch("https://cms.minitechworks.com/articles")
   .then(res => res.json())
   .then(json => {
     const grid = document.getElementById("wiki-container");
