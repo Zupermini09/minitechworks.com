@@ -50,13 +50,31 @@
       <h2 class="section-title">Request a 3D Print</h2>
 
       <form id="printForm" class="form">
+
         <label>Name</label>
         <input name="name" type="text" required>
 
         <label>Email</label>
         <input name="email" type="email" required>
 
-        <label>3D Model Link (MakerWorld, Printables, Thingiverse, Google Drive, etc)</label>
+        <label>Country</label>
+        <select name="country" required>
+          <option value="Norway">Norway</option>
+          <option value="Sweden">Sweden</option>
+          <option value="Denmark">Denmark</option>
+          <option value="Finland">Finland</option>
+        </select>
+
+        <label>Street Address</label>
+        <input name="street" type="text" placeholder="Street and house number" required>
+
+        <label>Postcode</label>
+        <input name="postcode" type="text" placeholder="Postcode" required>
+
+        <label>City</label>
+        <input name="city" type="text" placeholder="City" required>
+
+        <label>3D Model Link</label>
         <input name="fileLink" type="text" inputmode="url" pattern="https?://.*"
                placeholder="https://makerworld.com/model/123..." required>
 
@@ -132,6 +150,10 @@
       "🧱 **New 3D Print Request – MiniTechWorks**\n\n" +
       "**Name:** " + form.get("name") + "\n" +
       "**Email:** " + form.get("email") + "\n" +
+      "**Country:** " + form.get("country") + "\n" +
+      "**Street:** " + form.get("street") + "\n" +
+      "**Postcode:** " + form.get("postcode") + "\n" +
+      "**City:** " + form.get("city") + "\n" +
       "**Model Link:** " + form.get("fileLink") + "\n" +
       "**Material:** " + form.get("material") + "\n" +
       "**Color:** " + (form.get("color") || "N/A") + "\n" +
