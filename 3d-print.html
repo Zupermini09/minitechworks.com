@@ -149,16 +149,20 @@
     const content =
       "🧱 **New 3D Print Request – MiniTechWorks**\n\n" +
       "**Name:** " + form.get("name") + "\n" +
-      "**Email:** " + form.get("email") + "\n" +
-      "**Country:** " + form.get("country") + "\n" +
-      "**Street:** " + form.get("street") + "\n" +
-      "**Postcode:** " + form.get("postcode") + "\n" +
-      "**City:** " + form.get("city") + "\n" +
+      "**Email:** " + form.get("email") + "\n\n" +
+
+      "**Shipping Address**\n" +
+      "- " + form.get("country") + "\n" +
+      "- " + form.get("street") + "\n" +
+      "- " + form.get("postcode") + " " + form.get("city") + "\n\n" +
+
       "**Model Link:** " + form.get("fileLink") + "\n" +
       "**Material:** " + form.get("material") + "\n" +
-      "**Color:** " + (form.get("color") || "N/A") + "\n" +
+      "**Color:** " + (form.get("color") || "N/A") + "\n\n" +
+
       "**Estimated Weight:** " + (grams || "N/A") + " g\n" +
-      "**Estimated Price:** " + estimatedPrice + "\n" +
+      "**Estimated Price:** " + estimatedPrice + "\n\n" +
+
       "**Notes:** " + (form.get("notes") || "N/A");
 
     try {
