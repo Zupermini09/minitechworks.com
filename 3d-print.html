@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.ico" />
-  <meta name="description" content="3D printing services by MiniTechWorks – small runs, custom parts and prototypes, priced per gram with fair filament costs." />
+  <meta name="description" content="3D printing services by MiniTechWorks – small runs, custom parts and prototypes, priced fairly per gram." />
 
   <style>
     .page-hero {
@@ -40,10 +40,6 @@
     .card h2 {
       margin-bottom: 10px;
       font-size: 1.5rem;
-    }
-    .price-row {
-      margin-top: 6px;
-      margin-bottom: 6px;
     }
     .price-row strong {
       color: #0a84ff;
@@ -115,8 +111,7 @@
       align-items: center;
       margin-top: 8px;
     }
-    .calc-row input,
-    .calc-row select {
+    .calc-row input {
       max-width: 130px;
     }
     .calc-result {
@@ -125,6 +120,7 @@
     }
   </style>
 </head>
+
 <body>
 <header class="site-header">
   <div class="container header-inner">
@@ -147,25 +143,28 @@
     <div class="container">
       <h1>3D Printing Services</h1>
       <p>
-        Small runs, replacement parts and custom prints. I charge per gram so you always know
-        what you’re paying for. Perfect for brackets, mounts, little gadgets and project parts.
+        Custom prints, small runs and project parts priced fairly per gram.
+        I use high-quality filament and aim for clean, functional results.
       </p>
     </div>
   </section>
 
   <section class="container">
     <div class="print-layout">
+
       <article class="card">
         <h2>Pricing</h2>
         <p>
-          I pay around <strong>0.20 NOK per gram</strong> for filament. My selling price is:
+          Filament cost is around <strong>0.20 NOK/g</strong>.
         </p>
+
         <p class="price-row">
-          <strong>0.30–0.50 NOK per gram</strong> depending on filament, color and print time.
+          <strong>My printing price: 0.40 NOK per gram</strong>
         </p>
+
         <p class="small-note">
-          Example: a 60 g print at 0.40 NOK/g = 24 NOK.  
-          Extra costs may apply for supports, special filaments or multiple test prints.
+          Example: a 60 g print = 24 NOK<br>
+          Additional costs only apply for exotic materials, multi-filament prints or complex supports.
         </p>
 
         <div class="calc-wrapper">
@@ -173,17 +172,12 @@
           <div class="calc-row">
             <label for="grams-input">Weight (g)</label>
             <input id="grams-input" type="number" min="1" value="60">
-
-            <label for="price-input">Price per gram</label>
-            <select id="price-input">
-              <option value="0.3">0.30 NOK</option>
-              <option value="0.4" selected>0.40 NOK</option>
-              <option value="0.5">0.50 NOK</option>
-            </select>
           </div>
+
           <p id="calc-result" class="calc-result">Estimated total: 24.00 NOK</p>
+
           <p class="small-note">
-            This is only an estimate. I’ll confirm the exact price after checking your model.
+            The exact total will be confirmed after checking your STL model.
           </p>
         </div>
       </article>
@@ -191,124 +185,119 @@
       <article class="card">
         <h2>Request a 3D Print</h2>
         <p>
-          Send me your model and details. I’ll check printability, estimate weight and
-          get back to you with a final price.
+          Send me your STL file link and details. I’ll calculate the weight, check printability,
+          and email you the final price.
         </p>
 
         <form id="print-form" class="print-form">
-          <label for="print-name">Name</label>
-          <input id="print-name" name="name" type="text" required>
+          <label>Name</label>
+          <input name="name" type="text" required>
 
-          <label for="print-email">Email</label>
-          <input id="print-email" name="email" type="email" required>
+          <label>Email</label>
+          <input name="email" type="email" required>
 
-          <label for="print-file">Model link (STL)</label>
-          <input id="print-file" name="fileLink" type="url" placeholder="Google Drive / Printables / GitHub / etc." required>
+          <label>3D model link (MakerWorld / Printables / Thingiverse / Google Drive)</label>
+          <input name="fileLink" type="url" placeholder="https://makerworld.com/model/..." required>
 
-          <label for="print-material">Filament type</label>
-          <select id="print-material" name="material">
-            <option value="PLA">PLA</option>
+          <label>Material</label>
+          <select name="material">
+            <option value="PLA" selected>PLA</option>
             <option value="PETG">PETG</option>
             <option value="ABS/ASA">ABS / ASA</option>
             <option value="TPU">TPU (flexible)</option>
-            <option value="Other">Other / not sure</option>
+            <option value="Other">Other</option>
           </select>
 
-          <label for="print-color">Preferred color</label>
-          <input id="print-color" name="color" type="text" placeholder="Black, white, grey, etc.">
+          <label>Preferred color</label>
+          <input name="color" type="text" placeholder="Black, white, grey, etc.">
 
-          <label for="print-grams">Estimated weight (grams, if known)</label>
-          <input id="print-grams" name="grams" type="number" min="1" placeholder="e.g. 60">
+          <label>Estimated weight (if known)</label>
+          <input name="grams" type="number" min="1" placeholder="Optional">
 
-          <label for="print-notes">Notes</label>
-          <textarea id="print-notes" name="notes" placeholder="Wall thickness, infill, strength, tolerance, where it will be used, etc."></textarea>
+          <label>Notes</label>
+          <textarea name="notes" placeholder="Where the part is used, strength needed, tolerances, infill, etc."></textarea>
 
           <button type="submit" id="print-submit-btn">Send request</button>
         </form>
 
         <p id="print-status" class="status-message"></p>
       </article>
+
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="container footer-inner">
-    <p>© 2025 MiniTechWorks – Custom PCs &amp; 3D printing in Scandinavia.</p>
+    <p>© 2025 MiniTechWorks – Custom PCs &amp; 3D Printing in Scandinavia.</p>
   </div>
 </footer>
 
 <script src="scripts.js"></script>
 <script>
-  // Same webhook (Base64) reused here
-  const WEBHOOK_B64 = "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
+  const WEBHOOK_B64 =
+    "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
   const PRINT_WEBHOOK_URL = atob(WEBHOOK_B64);
 
-  // Simple calculator
+  // Fixed price: 0.4 NOK per gram
+  const PRICE_PER_GRAM = 0.4;
+
   const gramsInput = document.getElementById("grams-input");
-  const priceInput = document.getElementById("price-input");
   const calcResult = document.getElementById("calc-result");
 
   function updateEstimate() {
-    const g = Number(gramsInput.value) || 0;
-    const p = Number(priceInput.value) || 0;
-    const total = g * p;
+    const grams = Number(gramsInput.value) || 0;
+    const total = grams * PRICE_PER_GRAM;
     calcResult.textContent = "Estimated total: " + total.toFixed(2) + " NOK";
   }
 
-  if (gramsInput && priceInput && calcResult) {
-    gramsInput.addEventListener("input", updateEstimate);
-    priceInput.addEventListener("input", updateEstimate);
-    updateEstimate();
-  }
+  gramsInput.addEventListener("input", updateEstimate);
+  updateEstimate();
 
-  // Discord form
   const printForm = document.getElementById("print-form");
   const printStatus = document.getElementById("print-status");
   const printSubmitBtn = document.getElementById("print-submit-btn");
 
-  if (printForm) {
-    printForm.addEventListener("submit", function (event) {
-      event.preventDefault();
+  printForm.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-      printStatus.textContent = "";
-      printStatus.className = "status-message";
-      printSubmitBtn.disabled = true;
+    printSubmitBtn.disabled = true;
+    printStatus.textContent = "";
 
-      const formData = new FormData(printForm);
+    const formData = new FormData(printForm);
 
-      const payload = {
-        content:
-          "🧱 **New 3D Print Request – MiniTechWorks.com**\n\n" +
-          "**Name:** " + (formData.get("name") || "N/A") + "\n" +
-          "**Email:** " + (formData.get("email") || "N/A") + "\n" +
-          "**Model link:** " + (formData.get("fileLink") || "N/A") + "\n" +
-          "**Material:** " + (formData.get("material") || "N/A") + "\n" +
-          "**Color:** " + (formData.get("color") || "N/A") + "\n" +
-          "**Estimated grams:** " + (formData.get("grams") || "N/A") + "\n" +
-          "**Notes:** " + (formData.get("notes") || "N/A")
-      };
+    const payload = {
+      content:
+        "🧱 **New 3D Print Request – MiniTechWorks.com**\n\n" +
+        "**Name:** " + formData.get("name") + "\n" +
+        "**Email:** " + formData.get("email") + "\n" +
+        "**Model link:** " + formData.get("fileLink") + "\n" +
+        "**Material:** " + formData.get("material") + "\n" +
+        "**Color:** " + (formData.get("color") || "N/A") + "\n" +
+        "**Estimated grams:** " + (formData.get("grams") || "N/A") + "\n" +
+        "**Notes:** " + (formData.get("notes") || "N/A")
+    };
 
-      fetch(PRINT_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      })
-      .then(function (res) {
-        if (!res.ok) throw new Error("Request failed");
-        printStatus.textContent = "Request sent successfully! I’ll check your model and email you.";
+    fetch(PRINT_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(res => {
+        if (!res.ok) throw new Error();
+        printStatus.textContent = "Request sent successfully!";
         printStatus.className = "status-message status-success";
         printForm.reset();
+        updateEstimate();
       })
-      .catch(function () {
-        printStatus.textContent = "Something went wrong. Please try again in a bit.";
+      .catch(() => {
+        printStatus.textContent = "Something went wrong. Try again.";
         printStatus.className = "status-message status-error";
       })
-      .finally(function () {
+      .finally(() => {
         printSubmitBtn.disabled = false;
       });
-    });
-  }
+  });
 </script>
 </body>
 </html>
