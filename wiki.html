@@ -58,29 +58,22 @@
       margin-bottom: 10px;
     }
 
-    /* Make entire card clickable */
+    /* Make entire card clickable, but DO NOT change height */
     .wiki-link {
       display: block;
       text-decoration: none;
       color: inherit;
+      height: auto;      /* <- important */
     }
 
-    .wiki-link:hover .card {
+    /* Hover effect on card only */
+    .wiki-card:hover {
       border-color: var(--primary);
+      transition: 0.15s;
     }
   </style>
 </head>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-91ZW58C57G"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-91ZW58C57G');
-</script>
-  
 <body>
 
 <header class="site-header">
@@ -131,20 +124,19 @@
 </footer>
 
 <script>
-// Footer
+// Footer year
 document.getElementById("year").textContent = new Date().getFullYear();
 
 let articles = [];
 let filteredArticles = [];
 let activeCategory = "all";
 
-// Fetch articles from Strapi v3
+// Load articles
 fetch("https://cms.minitechworks.com/articles")
   .then(res => res.json())
   .then(json => {
     if (!Array.isArray(json)) {
-      document.getElementById("wiki-status").textContent =
-        "CMS error: returned invalid data.";
+      document.getElementById("wiki-status").textContent = "CMS error: returned invalid data.";
       return;
     }
 
@@ -156,8 +148,7 @@ fetch("https://cms.minitechworks.com/articles")
     renderArticles();
   })
   .catch(() => {
-    document.getElementById("wiki-status").textContent =
-      "Failed to load articles. CMS might be offline.";
+    document.getElementById("wiki-status").textContent = "Failed to load articles. CMS might be offline.";
   });
 
 // Render article cards
@@ -187,10 +178,9 @@ function renderArticles() {
   });
 }
 
-// Search system
+// Search behavior
 document.getElementById("search-bar").addEventListener("input", e => {
   const text = e.target.value.toLowerCase();
-
   filteredArticles = articles.filter(a =>
     a.title.toLowerCase().includes(text) ||
     (a.excerpt && a.excerpt.toLowerCase().includes(text)) ||
@@ -206,29 +196,24 @@ document.getElementById("search-bar").addEventListener("input", e => {
   renderArticles();
 });
 
-// Category system
+// Categories
 function renderCategories() {
   const list = document.getElementById("category-list");
   list.innerHTML = "";
 
   const cats = [...new Set(articles.map(a => a.category).filter(Boolean))];
 
-  // Always include "All"
   list.innerHTML += `<button class="category-btn active" data-cat="all">All</button>`;
 
   cats.forEach(cat => {
-    list.innerHTML += `
-      <button class="category-btn" data-cat="${cat.toLowerCase()}">${cat}</button>
-    `;
+    list.innerHTML += `<button class="category-btn" data-cat="${cat.toLowerCase()}">${cat}</button>`;
   });
 
   document.querySelectorAll(".category-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
-
       btn.classList.add("active");
       activeCategory = btn.dataset.cat;
-
       filterByCategory();
     });
   });
@@ -243,7 +228,6 @@ function filterByCategory() {
     );
   }
 
-  // Apply search filter again
   const text = document.getElementById("search-bar").value.toLowerCase();
 
   filteredArticles = result.filter(a =>
