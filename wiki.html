@@ -16,8 +16,8 @@
       padding: 10px 14px;
       border-radius: 10px;
       border: 1px solid var(--border);
-      background: #1f2937;
-      color: white;
+      background: var(--bg-secondary); /* FIX: matches rest of site */
+      color: var(--text);
       font-size: 1rem;
     }
 
@@ -34,12 +34,19 @@
       font-size: 0.85rem;
       border-radius: 999px;
       border: 1px solid var(--border);
-      background: #1f2937;
+      background: var(--bg-secondary); /* FIX: unified */
+      color: var(--text);
       cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .category-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
     }
 
     .category-btn.active {
-      background: var(--primary);
+      background: var(--primary);       /* FIX: unified button blue */
       color: white;
       border-color: var(--primary-dark);
     }
@@ -97,9 +104,7 @@
       <input id="search-bar" type="text" placeholder="Search articles…">
 
       <!-- CATEGORY FILTERS -->
-      <div class="category-list" id="category-list">
-        <!-- Dynamic categories will appear here -->
-      </div>
+      <div class="category-list" id="category-list"></div>
 
       <p id="wiki-status" class="small-text">Loading articles…</p>
 
@@ -118,8 +123,8 @@
 // Footer
 document.getElementById("year").textContent = new Date().getFullYear();
 
-let articles = [];       // Full list from CMS
-let filteredArticles = []; // Filtered by search + category
+let articles = [];
+let filteredArticles = [];
 let activeCategory = "all";
 
 // Fetch articles from Strapi v3
