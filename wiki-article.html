@@ -54,18 +54,18 @@
       margin-bottom: 16px;
     }
 
-    /* WARNING + INFO BOXES (LIGHT MODE) */
+    /* WARNING + INFO BOXES */
     .article-warning {
-      background: #fef3c7;          /* soft yellow */
+      background: #fef3c7;
       border-left: 4px solid #f59e0b;
       padding: 16px;
       border-radius: 12px;
       margin: 20px 0;
-      color: #78350f;               /* dark text */
+      color: #78350f;
     }
 
     .article-info {
-      background: #e0f2fe;          /* soft blue */
+      background: #e0f2fe;
       border-left: 4px solid #0284c7;
       padding: 16px;
       border-radius: 12px;
@@ -73,17 +73,17 @@
       color: #0c4a6e;
     }
 
-    /* DARK MODE OVERRIDES — THESE FIX YOUR ISSUE */
+    /* DARK MODE OVERRIDES */
     .dark-mode .article-warning {
-      background: #7a2e0e;          /* deep warm brown/orange */
-      border-color: #fbbf24;        /* yellow border */
-      color: #fffaf0;               /* readable off-white */
+      background: #7a2e0e;
+      border-color: #fbbf24;
+      color: #fffaf0;
     }
 
     .dark-mode .article-info {
-      background: #0f3b66;          /* deep navy blue */
-      border-color: #38bdf8;        /* cyan border */
-      color: #e0f7ff;               /* soft bright text */
+      background: #0f3b66;
+      border-color: #38bdf8;
+      color: #e0f7ff;
     }
 
     /* LINKS */
@@ -111,13 +111,12 @@
   </style>
 </head>
 
-<!-- Google tag (gtag.js) -->
+<!-- Google tag -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-91ZW58C57G"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-91ZW58C57G');
 </script>
  
@@ -155,6 +154,15 @@
 
       <a href="wiki.html" class="back-link">← Back to all articles</a>
 
+      <!-- ⭐ BUY ME A COFFEE BUTTON -->
+      <div style="text-align:center; margin:30px 0 20px;">
+        <a href="https://www.buymeacoffee.com/emilianovec" target="_blank">
+          <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+               alt="Buy Me A Coffee"
+               style="height:60px !important; width:217px !important;">
+        </a>
+      </div>
+
     </div>
   </section>
 </main>
@@ -174,19 +182,17 @@ const slug = params.get("slug");
 
 if (!slug) {
   document.getElementById("article-title").textContent = "Article Not Found";
-  document.getElementById("article-content").textContent =
-    "No article selected.";
+  document.getElementById("article-content").textContent = "No article selected.";
   throw new Error("Missing slug");
 }
 
-// Fetch from Strapi v3
+// Fetch from Strapi
 fetch(`https://cms.minitechworks.com/articles?slug=${slug}`)
   .then(res => res.json())
   .then(json => {
     if (!Array.isArray(json) || json.length === 0) {
       document.getElementById("article-title").textContent = "Not Found";
-      document.getElementById("article-content").textContent =
-        "This article does not exist.";
+      document.getElementById("article-content").textContent = "This article does not exist.";
       return;
     }
 
@@ -204,39 +210,26 @@ fetch(`https://cms.minitechworks.com/articles?slug=${slug}`)
 
     let html = article.content;
 
-    // Replace [warning]...[/warning]
-    html = html.replace(/\[warning\]([\s\S]*?)\[\/warning\]/gi, 
+    html = html.replace(/\[warning\]([\s\S]*?)\[\/warning\]/gi,
       '<div class="article-warning">$1</div>'
     );
 
-    // Replace [info]...[/info]
-    html = html.replace(/\[info\]([\s\S]*?)\[\/info\]/gi, 
+    html = html.replace(/\[info\]([\s\S]*?)\[\/info\]/gi,
       '<div class="article-info">$1</div>'
     );
 
-    // Convert line breaks
     html = html.replace(/\n/g, "<br>");
 
-    // Auto-detect plain URLs
     html = html.replace(
       /((https?:\/\/)[^\s<]+)/g,
       '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
     );
 
-    // Insert HTML
-    const content = document.getElementById("article-content");
-    content.innerHTML = html;
-
-    // Make all links open in new tab
-    document.querySelectorAll(".article-body a").forEach(a => {
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-    });
+    document.getElementById("article-content").innerHTML = html;
   })
   .catch(() => {
     document.getElementById("article-title").textContent = "Error loading article";
-    document.getElementById("article-content").textContent =
-      "CMS appears to be offline.";
+    document.getElementById("article-content").textContent = "CMS appears to be offline.";
   });
 </script>
 
