@@ -10,13 +10,12 @@
   <meta name="description" content="MiniTechWorks – 3D printing, PC builds, and simple tech tutorials in Scandinavia." />
 </head>
 
-<!-- Google tag (gtag.js) -->
+<!-- Google tag -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-91ZW58C57G"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-91ZW58C57G');
 </script>
   
@@ -50,7 +49,9 @@
     <div class="container two-column">
       <div>
         <h2>Send a message</h2>
+
         <form id="contact-form" class="form">
+
           <div class="form-group">
             <label for="contact-name">Name</label>
             <input id="contact-name" name="name" type="text" required />
@@ -75,11 +76,12 @@
           <div class="form-group">
             <label for="contact-message">Message</label>
             <textarea id="contact-message" name="message" rows="4"
-              placeholder="Write your question or request here."></textarea>
+              placeholder="Write your question or request here." required></textarea>
           </div>
 
           <button type="submit" class="btn btn-primary">Send</button>
-          <p id="contact-message-info" class="form-message" aria-live="polite"></p>
+          <p id="contact-status" class="form-message" aria-live="polite"></p>
+
         </form>
       </div>
 
@@ -112,6 +114,51 @@
   </div>
 </footer>
 
-<script src="scripts.js"></script>
+<script>
+// Footer year
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// SAME webhook as pc-builds page
+const CONTACT_WEBHOOK_B64 =
+  "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
+
+const CONTACT_WEBHOOK_URL = atob(CONTACT_WEBHOOK_B64);
+
+document.getElementById("contact-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = new FormData(e.target);
+  const status = document.getElementById("contact-status");
+  const btn = e.target.querySelector("button");
+
+  btn.disabled = true;
+  status.textContent = "Sending...";
+
+  const content =
+    "📩 **New Contact Message – MiniTechWorks**\n\n" +
+    "**Name:** " + form.get("name") + "\n" +
+    "**Email:** " + form.get("email") + "\n" +
+    "**Topic:** " + (form.get("topic") || "N/A") + "\n\n" +
+    "**Message:**\n" + (form.get("message") || "N/A");
+
+  try {
+    await fetch(CONTACT_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content })
+    });
+
+    status.textContent = "Message sent! I’ll reply soon.";
+    status.style.color = "green";
+    e.target.reset();
+  } catch {
+    status.textContent = "Something went wrong!";
+    status.style.color = "red";
+  }
+
+  btn.disabled = false;
+});
+</script>
+
 </body>
 </html>
