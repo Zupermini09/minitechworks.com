@@ -187,7 +187,8 @@
       e.target.reset();
       updateEstimate();
     } catch {
-      status.textContent = "Something went wrong!";
+      status.textContent =
+        "Message failed to send. This can happen if you’re on a restricted school/work network or if Discord is blocked on your connection.";
       status.classList.add("error");
     }
 
