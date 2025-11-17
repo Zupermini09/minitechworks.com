@@ -78,7 +78,7 @@ body {
   width: 32px;
   height: 32px;
   object-fit: cover;
-  border-radius: 8px; /* optional rounded corners */
+  border-radius: 8px;
   display: block;
 }
 
@@ -376,6 +376,27 @@ textarea {
 .wiki-grid {
   display: grid;
   gap: 16px;
+}
+
+/* --- ADDED WIKI FIX --- */
+.wiki-link {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.wiki-card {
+  height: 100%;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.wiki-card:hover {
+  border-color: var(--primary);
+  transition: 0.15s ease;
 }
 
 /* Form message */
