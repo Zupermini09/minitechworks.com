@@ -16,8 +16,8 @@
       padding: 10px 14px;
       border-radius: 10px;
       border: 1px solid var(--border);
-      background: var(--bg-secondary);
-      color: var(--text);
+      background: #1f2937;
+      color: white;
       font-size: 1rem;
     }
 
@@ -34,15 +34,8 @@
       font-size: 0.85rem;
       border-radius: 999px;
       border: 1px solid var(--border);
-      background: var(--bg-secondary);
-      color: var(--text);
+      background: #1f2937;
       cursor: pointer;
-      transition: 0.15s ease;
-    }
-
-    .category-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
     }
 
     .category-btn.active {
@@ -58,22 +51,30 @@
       margin-bottom: 10px;
     }
 
-    /* Make entire card clickable, but DO NOT change height */
+    /* Make card clickable */
     .wiki-link {
       display: block;
       text-decoration: none;
       color: inherit;
-      height: auto;      /* <- important */
+      height: 100%;
     }
 
-    /* Hover effect on card only */
     .wiki-card:hover {
       border-color: var(--primary);
-      transition: 0.15s;
+      transition: 0.15s ease;
     }
   </style>
 </head>
 
+<!-- Google tag -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-91ZW58C57G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-91ZW58C57G');
+</script>
+  
 <body>
 
 <header class="site-header">
@@ -124,19 +125,20 @@
 </footer>
 
 <script>
-// Footer year
+// Footer
 document.getElementById("year").textContent = new Date().getFullYear();
 
 let articles = [];
 let filteredArticles = [];
 let activeCategory = "all";
 
-// Load articles
+// Fetch articles
 fetch("https://cms.minitechworks.com/articles")
   .then(res => res.json())
   .then(json => {
     if (!Array.isArray(json)) {
-      document.getElementById("wiki-status").textContent = "CMS error: returned invalid data.";
+      document.getElementById("wiki-status").textContent =
+        "CMS error: returned invalid data.";
       return;
     }
 
@@ -148,7 +150,8 @@ fetch("https://cms.minitechworks.com/articles")
     renderArticles();
   })
   .catch(() => {
-    document.getElementById("wiki-status").textContent = "Failed to load articles. CMS might be offline.";
+    document.getElementById("wiki-status").textContent =
+      "Failed to load articles. CMS might be offline.";
   });
 
 // Render article cards
@@ -178,9 +181,10 @@ function renderArticles() {
   });
 }
 
-// Search behavior
+// Search system
 document.getElementById("search-bar").addEventListener("input", e => {
   const text = e.target.value.toLowerCase();
+
   filteredArticles = articles.filter(a =>
     a.title.toLowerCase().includes(text) ||
     (a.excerpt && a.excerpt.toLowerCase().includes(text)) ||
@@ -196,7 +200,7 @@ document.getElementById("search-bar").addEventListener("input", e => {
   renderArticles();
 });
 
-// Categories
+// Category system
 function renderCategories() {
   const list = document.getElementById("category-list");
   list.innerHTML = "";
