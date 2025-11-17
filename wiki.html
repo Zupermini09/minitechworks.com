@@ -16,7 +16,7 @@
       padding: 10px 14px;
       border-radius: 10px;
       border: 1px solid var(--border);
-      background: var(--bg-secondary); /* FIX: matches rest of site */
+      background: var(--bg-secondary);
       color: var(--text);
       font-size: 1rem;
     }
@@ -34,7 +34,7 @@
       font-size: 0.85rem;
       border-radius: 999px;
       border: 1px solid var(--border);
-      background: var(--bg-secondary); /* FIX: unified */
+      background: var(--bg-secondary);
       color: var(--text);
       cursor: pointer;
       transition: 0.15s ease;
@@ -46,7 +46,7 @@
     }
 
     .category-btn.active {
-      background: var(--primary);       /* FIX: unified button blue */
+      background: var(--primary);
       color: white;
       border-color: var(--primary-dark);
     }
@@ -56,6 +56,17 @@
       width: 100%;
       border-radius: var(--radius-md);
       margin-bottom: 10px;
+    }
+
+    /* Make entire card clickable */
+    .wiki-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .wiki-link:hover .card {
+      border-color: var(--primary);
     }
   </style>
 </head>
@@ -165,14 +176,13 @@ function renderArticles() {
       : "";
 
     grid.innerHTML += `
-      <article class="card wiki-card">
-        ${imgHtml}
-        <h2>${item.title}</h2>
-        <p>${item.excerpt || ""}</p>
-        <a href="wiki-article.html?slug=${item.slug}" class="small-text">
-          Read full article →
-        </a>
-      </article>
+      <a class="wiki-link" href="wiki-article.html?slug=${item.slug}">
+        <article class="card wiki-card">
+          ${imgHtml}
+          <h2>${item.title}</h2>
+          <p>${item.excerpt || ""}</p>
+        </article>
+      </a>
     `;
   });
 }
