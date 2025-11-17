@@ -160,8 +160,9 @@ document.getElementById("contact-form").addEventListener("submit", async e => {
     status.textContent = "Message sent! I’ll reply to your email soon.";
     status.classList.add("success");
     e.target.reset();
-  } catch {
-    status.textContent = "Something went wrong!";
+ } catch {
+    status.textContent =
+      "Message failed to send. This can happen if you’re on a restricted school/work network or if Discord is blocked on your connection.";
     status.classList.add("error");
   }
 });
