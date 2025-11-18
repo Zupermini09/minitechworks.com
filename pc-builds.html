@@ -34,8 +34,10 @@
 
       <hr class="divider">
 
+      <!-- PC Build Cards -->
       <div id="pcList" class="wiki-grid"></div>
 
+      <!-- Custom PC Button -->
       <div style="text-align:center; margin-top: 28px;">
         <a href="pc-custom.html" class="btn btn-primary" style="padding: 12px 26px; font-size: 1rem;">
           Get a Custom PC
@@ -55,9 +57,10 @@
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 
-/* ENTER YOUR REAL STRAPI URL HERE */
-const API_URL = "https://api.minitechworks.com";  // <-- CHANGE THIS IF WRONG
+/* ✔ REAL CMS URL */
+const API_URL = "https://cms.minitechworks.com";
 
+/* Your Discord Webhook */
 const WEBHOOK_B64 =
   "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
 
@@ -71,8 +74,9 @@ async function loadBuilds() {
     const res = await fetch(`${API_URL}/api/pc-builds?populate=image&sort=order:asc`);
     
     if (!res.ok) {
-      container.innerHTML = "<p>CMS error. Check publish status & permissions.</p>";
-      console.error("Strapi error:", await res.text());
+      const errorText = await res.text();
+      container.innerHTML = "<p>CMS error. Build entries might not be published.</p>";
+      console.error("Strapi error:", errorText);
       return;
     }
 
@@ -80,7 +84,7 @@ async function loadBuilds() {
     const builds = json.data;
 
     if (!builds || builds.length === 0) {
-      container.innerHTML = "<p>No builds published in CMS.</p>";
+      container.innerHTML = "<p>No PC builds published yet.</p>";
       return;
     }
 
@@ -97,7 +101,9 @@ async function loadBuilds() {
       card.className = "wiki-card card";
 
       card.innerHTML = `
-        <img src="${imageUrl}" style="width:100%; border-radius:10px; margin-bottom:12px;">
+        <img src="${imageUrl}" alt="${b.title}"
+          style="width:100%; border-radius:10px; margin-bottom:12px;">
+
         <h3>${b.title}</h3>
         <p>${b.description.slice(0, 200)}...</p>
 
@@ -111,7 +117,7 @@ async function loadBuilds() {
     });
 
   } catch (err) {
-    container.innerHTML = "<p>Failed to load builds (network/CORS).</p>";
+    container.innerHTML = "<p>Failed to load builds. Check CORS or server is online.</p>";
     console.error("Network error:", err);
   }
 }
