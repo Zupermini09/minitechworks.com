@@ -7,10 +7,11 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.ico" />
-  <meta name="description" content="Recommended PC builds and custom PC quotes – MiniTechWorks." />
+  <meta name="description" content="PC Builds – Recommended builds managed through MiniTechWorks CMS.">
 </head>
 
 <body>
+
 <header class="site-header">
   <div class="container header-inner">
     <a href="index.html" class="logo">
@@ -30,61 +31,12 @@
   <section class="section">
     <div class="container">
       <h1 class="section-title">PC Builds</h1>
-      <p>
-        Here are the three best value gaming PC builds I recommend.  
-        These are updated often and based on Scandinavian prices.
-      </p>
+      <p>These builds are updated from my CMS and show recommended gaming PCs for different budgets.</p>
 
       <hr class="divider">
 
-      <h2 class="section-title small">Recommended PC Builds</h2>
-
-      <div class="pc-build-grid">
-        <!-- Low-End -->
-        <div class="pc-card">
-          <h3 class="pc-title">Low-End (1080p eSports)</h3>
-          <ul>
-            <li><strong>CPU:</strong> Ryzen 5 5500</li>
-            <li><strong>GPU:</strong> RX 6650 XT</li>
-            <li><strong>Price:</strong> ~9300 NOK</li>
-          </ul>
-          <p class="pc-desc">
-            ⟶ 144–240 FPS in CS2, Fortnite, Roblox, Valorant.
-          </p>
-        </div>
-
-        <!-- Mid-End -->
-        <div class="pc-card">
-          <h3 class="pc-title">Mid-End (1080p High / 1440p Medium)</h3>
-          <ul>
-            <li><strong>CPU:</strong> Ryzen 5 7600</li>
-            <li><strong>GPU:</strong> RX 7700 XT</li>
-            <li><strong>Price:</strong> ~14–15k NOK</li>
-          </ul>
-          <p class="pc-desc">
-            ⟶ Very strong AAA performance and smooth 1440p gaming.
-          </p>
-        </div>
-
-        <!-- High-End -->
-        <div class="pc-card">
-          <h3 class="pc-title">High-End (1440p Ultra / 4K Entry)</h3>
-          <ul>
-            <li><strong>CPU:</strong> Ryzen 7 7800X3D</li>
-            <li><strong>GPU:</strong> RTX 4070 Ti SUPER / RX 7900 XT</li>
-            <li><strong>Price:</strong> 22–28k NOK</li>
-          </ul>
-          <p class="pc-desc">
-            ⟶ Ultra settings in every modern AAA game.
-          </p>
-        </div>
-      </div>
-
-      <div style="text-align:center; margin-top: 35px;">
-        <a href="pc-custom.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 14px 28px;">
-          Want a Custom PC Instead?
-        </a>
-      </div>
+      <!-- Container for PC build cards -->
+      <div id="pcList" class="wiki-grid"></div>
 
     </div>
   </section>
@@ -97,7 +49,69 @@
 </footer>
 
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* Your Discord webhook (encoded) */
+const WEBHOOK_B64 =
+  "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
+
+const WEBHOOK_URL = atob(WEBHOOK_B64);
+
+async function loadBuilds() {
+  const container = document.getElementById("pcList");
+
+  try {
+    const res = await fetch("https://api.minitechworks.com/api/pc-builds?sort=order:asc");
+    const json = await res.json();
+    const builds = json.data;
+
+    if (!builds || builds.length === 0) {
+      container.innerHTML = "<p>No builds available.</p>";
+      return;
+    }
+
+    builds.forEach(build => {
+      const b = build.attributes;
+
+      const card = document.createElement("div");
+      card.className = "wiki-card card";
+
+      card.innerHTML = `
+        <h3>${b.title}</h3>
+        <p>${b.description.slice(0, 200)}...</p>
+
+        <button class="btn btn-primary" style="margin-top: 14px;"
+          onclick="orderPC('${b.title.replace(/'/g, "\\'")}')">Order this PC</button>
+      `;
+
+      container.appendChild(card);
+    });
+
+  } catch {
+    container.innerHTML = "<p>Failed to load builds.</p>";
+  }
+}
+
+async function orderPC(title) {
+  const message =
+    "🖥️ **New PC Build Order**\n\n" +
+    "**PC Selected:** " + title + "\n" +
+    "User clicked the Order button on MiniTechWorks.com.";
+
+  try {
+    await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: message })
+    });
+
+    alert("Order sent! I'll contact you soon.");
+  } catch {
+    alert("Failed to send. Discord might be blocked on your network.");
+  }
+}
+
+loadBuilds();
 </script>
 
 </body>
