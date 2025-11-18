@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.ico" />
-  <meta name="description" content="PC Builds – Recommended builds managed through MiniTechWorks CMS.">
 </head>
 
 <body>
@@ -35,8 +34,13 @@
 
       <hr class="divider">
 
-      <!-- Container for PC build cards -->
       <div id="pcList" class="wiki-grid"></div>
+
+      <div style="text-align:center; margin-top: 28px;">
+        <a href="pc-custom.html" class="btn btn-primary" style="padding: 12px 26px; font-size: 1rem;">
+          Get a Custom PC
+        </a>
+      </div>
 
     </div>
   </section>
@@ -51,7 +55,9 @@
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 
-/* Your Discord webhook (encoded) */
+/* ENTER YOUR REAL STRAPI URL HERE */
+const API_URL = "https://api.minitechworks.com";  // <-- CHANGE THIS IF WRONG
+
 const WEBHOOK_B64 =
   "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
 
@@ -59,44 +65,61 @@ const WEBHOOK_URL = atob(WEBHOOK_B64);
 
 async function loadBuilds() {
   const container = document.getElementById("pcList");
+  container.innerHTML = "<p>Loading PC builds...</p>";
 
   try {
-    const res = await fetch("https://api.minitechworks.com/api/pc-builds?sort=order:asc");
+    const res = await fetch(`${API_URL}/api/pc-builds?populate=image&sort=order:asc`);
+    
+    if (!res.ok) {
+      container.innerHTML = "<p>CMS error. Check publish status & permissions.</p>";
+      console.error("Strapi error:", await res.text());
+      return;
+    }
+
     const json = await res.json();
     const builds = json.data;
 
     if (!builds || builds.length === 0) {
-      container.innerHTML = "<p>No builds available.</p>";
+      container.innerHTML = "<p>No builds published in CMS.</p>";
       return;
     }
 
+    container.innerHTML = "";
+
     builds.forEach(build => {
       const b = build.attributes;
+
+      const imageUrl = b.image?.data?.attributes?.url
+        ? API_URL + b.image.data.attributes.url
+        : "favicon.png";
 
       const card = document.createElement("div");
       card.className = "wiki-card card";
 
       card.innerHTML = `
+        <img src="${imageUrl}" style="width:100%; border-radius:10px; margin-bottom:12px;">
         <h3>${b.title}</h3>
         <p>${b.description.slice(0, 200)}...</p>
 
         <button class="btn btn-primary" style="margin-top: 14px;"
-          onclick="orderPC('${b.title.replace(/'/g, "\\'")}')">Order this PC</button>
+          onclick="orderPC('${b.title.replace(/'/g, "\\'")}')">
+          Order this PC
+        </button>
       `;
 
       container.appendChild(card);
     });
 
-  } catch {
-    container.innerHTML = "<p>Failed to load builds.</p>";
+  } catch (err) {
+    container.innerHTML = "<p>Failed to load builds (network/CORS).</p>";
+    console.error("Network error:", err);
   }
 }
 
 async function orderPC(title) {
   const message =
     "🖥️ **New PC Build Order**\n\n" +
-    "**PC Selected:** " + title + "\n" +
-    "User clicked the Order button on MiniTechWorks.com.";
+    "**Selected PC:** " + title;
 
   try {
     await fetch(WEBHOOK_URL, {
@@ -105,9 +128,9 @@ async function orderPC(title) {
       body: JSON.stringify({ content: message })
     });
 
-    alert("Order sent! I'll contact you soon.");
+    alert("Order sent! I will contact you soon.");
   } catch {
-    alert("Failed to send. Discord might be blocked on your network.");
+    alert("Failed to send order. Discord might be blocked.");
   }
 }
 
