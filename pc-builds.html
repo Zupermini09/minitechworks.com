@@ -71,7 +71,7 @@ async function loadBuilds() {
   container.innerHTML = "<p>Loading PC builds...</p>";
 
   try {
-    const res = await fetch(`${API_URL}/api/pc-builds?populate=image&sort=order:asc`);
+    const res = await fetch(`${API_URL}/content/pc-builds?populate=*`);
     
     if (!res.ok) {
       const errorText = await res.text();
