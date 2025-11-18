@@ -7,11 +7,20 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.ico" />
-  <meta name="description" content="PC Builds – Recommended builds managed through MiniTechWorks CMS.">
+  <meta name="description" content="Custom PC build quotes at MiniTechWorks." />
 </head>
 
-<body>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-91ZW58C57G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-91ZW58C57G');
+</script>
+ 
+<body>
 <header class="site-header">
   <div class="container header-inner">
     <a href="index.html" class="logo">
@@ -30,19 +39,65 @@
 <main>
   <section class="section">
     <div class="container">
-      <h1 class="section-title">PC Builds</h1>
-      <p>These builds are updated directly from my CMS. Each one is a recommended gaming PC for different budgets.</p>
+      <h1 class="section-title">Custom PC Build Requests</h1>
+      <p>
+        I offer custom PC build quotes based on your budget and needs.  
+        I also maintain public recommended builds (low, mid, high end) for people who want easy options.
+      </p>
+
+      <h2 class="section-title small">What I offer</h2>
+      <ul>
+        <li><strong>Custom PC Build Quote</strong> – A full breakdown of parts, build fee, and optional shipping.</li>
+        <li><strong>Public Recommended Builds</strong> – Pre-made PC configurations you can browse on the Tutorials/Wiki page.</li>
+      </ul>
 
       <hr class="divider">
+      
+      <h2 class="section-title">Request a Custom Build Quote</h2>
+      <p>Fill out the form below and I will reply to your email with the full breakdown.</p>
 
-      <div id="pcList" class="wiki-grid"></div>
+      <form id="pcForm" class="form">
 
-      <div style="text-align:center; margin-top: 28px;">
-        <a href="pc-custom.html" class="btn btn-primary" style="padding: 12px 26px; font-size: 1rem;">
-          Get a Custom PC
-        </a>
-      </div>
+        <label>Name</label>
+        <input name="name" type="text" required>
 
+        <label>Email</label>
+        <input name="email" type="email" required>
+
+        <label>Country</label>
+        <select name="country" required>
+          <option value="Norway">Norway</option>
+          <option value="Sweden">Sweden</option>
+          <option value="Denmark">Denmark</option>
+          <option value="Finland">Finland</option>
+        </select>
+
+        <label>Street Address</label>
+        <input name="street" type="text" placeholder="Street and house number" required>
+
+        <label>Postcode</label>
+        <input name="postcode" type="text" placeholder="Postcode" required>
+
+        <label>City</label>
+        <input name="city" type="text" placeholder="City" required>
+
+        <label>Budget (NOK)</label>
+        <input name="budget" type="number" min="1" required>
+
+        <label>Color Theme</label>
+        <input name="colors" type="text" placeholder="Black/white, RGB, stealth, etc.">
+
+        <label>Preferences</label>
+        <textarea name="preferences" placeholder="Brands, AMD/Intel, airflow, quiet build, etc."></textarea>
+
+        <label>Notes</label>
+        <textarea name="notes" placeholder="Games you play, editing, special needs, homelab, etc."></textarea>
+
+        <!-- FIX: Added spacing above button -->
+        <button type="submit" class="btn btn-primary" style="margin-top: 14px;">Send Request</button>
+      </form>
+
+      <p id="pcStatus" class="form-status"></p>
     </div>
   </section>
 </main>
@@ -54,105 +109,54 @@
 </footer>
 
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
+  const WEBHOOK_B64 =
+    "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
 
-/* CMS URL (Strapi v2 / Next) */
-const API_URL = "https://cms.minitechworks.com";
+  const WEBHOOK_URL = atob(WEBHOOK_B64);
 
-/* Discord webhook */
-const WEBHOOK_B64 =
-  "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
-const WEBHOOK_URL = atob(WEBHOOK_B64);
+  document.getElementById("pcForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-async function loadBuilds() {
-  const container = document.getElementById("pcList");
-  container.innerHTML = "<p>Loading PC builds...</p>";
+    const form = new FormData(e.target);
+    const btn = e.target.querySelector("button");
+    const status = document.getElementById("pcStatus");
 
-  try {
-    /* Strapi v2 uses /content instead of /api */
-    const res = await fetch(`${API_URL}/content/pc-builds?populate=*`);
+    btn.disabled = true;
+    status.textContent = "Sending...";
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      console.error("Strapi v2 error:", errorText);
-      container.innerHTML = "<p>CMS error. Check if entries are published.</p>";
-      return;
+    const content =
+      "🖥️ **New PC Build Request – MiniTechWorks**\n\n" +
+      "**Name:** " + form.get("name") + "\n" +
+      "**Email:** " + form.get("email") + "\n\n" +
+
+      "**Shipping Address**\n" +
+      "- " + form.get("country") + "\n" +
+      "- " + form.get("street") + "\n" +
+      "- " + form.get("postcode") + " " + form.get("city") + "\n\n" +
+
+      "**Budget:** " + form.get("budget") + " NOK\n" +
+      "**Colors:** " + (form.get("colors") || "N/A") + "\n" +
+      "**Preferences:** " + (form.get("preferences") || "N/A") + "\n\n" +
+
+      "**Notes:** " + (form.get("notes") || "N/A");
+    
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content })
+      });
+
+      status.textContent = "Request sent! I’ll reply to your email soon.";
+      status.classList.add("success");
+      e.target.reset();
+    } catch {
+      status.textContent =
+        "Message failed to send. This can happen if you’re on a restricted school/work network or if Discord is blocked on your connection.";
+      status.classList.add("error");
     }
-
-    const json = await res.json();
-    const builds = json?.data || [];
-
-    if (builds.length === 0) {
-      container.innerHTML = "<p>No PC builds published yet.</p>";
-      return;
-    }
-
-    container.innerHTML = "";
-
-    builds.sort((a, b) => {
-      const A = a.attributes.order || 0;
-      const B = b.attributes.order || 0;
-      return A - B;
-    });
-
-    builds.forEach(item => {
-      const b = item.attributes;
-
-      const imageUrl =
-        b.image?.data?.attributes?.url
-          ? API_URL + b.image.data.attributes.url
-          : "favicon.png";
-
-      const preview =
-        b.description.length > 200
-          ? b.description.slice(0, 200) + "..."
-          : b.description;
-
-      const card = document.createElement("div");
-      card.className = "wiki-card card";
-
-      card.innerHTML = `
-        <img src="${imageUrl}" alt="${b.title}"
-          style="width:100%; border-radius:10px; margin-bottom:12px;">
-
-        <h3>${b.title}</h3>
-        <p>${preview}</p>
-
-        <button class="btn btn-primary" style="margin-top: 14px;"
-          onclick="orderPC('${b.title.replace(/'/g, "\\'")}')">
-          Order this PC
-        </button>
-      `;
-
-      container.appendChild(card);
-    });
-
-  } catch (err) {
-    console.error("Network error:", err);
-    container.innerHTML = "<p>Failed to load PC builds (network or CORS).</p>";
-  }
-}
-
-async function orderPC(title) {
-  const msg =
-    "🖥️ **New PC Build Order**\n" +
-    "**Selected PC:** " + title + "\n" +
-    "User clicked the order button on the PC Builds page.";
-
-  try {
-    await fetch(WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: msg })
-    });
-
-    alert("Order sent! I will contact you soon.");
-  } catch {
-    alert("Failed to send order (Discord might be blocked).");
-  }
-}
-
-loadBuilds();
+    btn.disabled = false;
+  });
 </script>
 
 </body>
