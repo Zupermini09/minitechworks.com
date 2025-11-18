@@ -7,19 +7,9 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.ico" />
-  <meta name="description" content="Custom PC build quotes at MiniTechWorks." />
+  <meta name="description" content="Recommended PC builds and custom PC quotes – MiniTechWorks." />
 </head>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-91ZW58C57G"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-91ZW58C57G');
-</script>
- 
 <body>
 <header class="site-header">
   <div class="container header-inner">
@@ -39,65 +29,63 @@
 <main>
   <section class="section">
     <div class="container">
-      <h1 class="section-title">Custom PC Build Requests</h1>
+      <h1 class="section-title">PC Builds</h1>
       <p>
-        I offer custom PC build quotes based on your budget and needs.  
-        I also maintain public recommended builds (low, mid, high end) for people who want easy options.
+        Here are the three best value gaming PC builds I recommend.  
+        These are updated often and based on Scandinavian prices.
       </p>
 
-      <h2 class="section-title small">What I offer</h2>
-      <ul>
-        <li><strong>Custom PC Build Quote</strong> – A full breakdown of parts, build fee, and optional shipping.</li>
-        <li><strong>Public Recommended Builds</strong> – Pre-made PC configurations you can browse on the Tutorials/Wiki page.</li>
-      </ul>
-
       <hr class="divider">
-      
-      <h2 class="section-title">Request a Custom Build Quote</h2>
-      <p>Fill out the form below and I will reply to your email with the full breakdown.</p>
 
-      <form id="pcForm" class="form">
+      <h2 class="section-title small">Recommended PC Builds</h2>
 
-        <label>Name</label>
-        <input name="name" type="text" required>
+      <div class="pc-build-grid">
+        <!-- Low-End -->
+        <div class="pc-card">
+          <h3 class="pc-title">Low-End (1080p eSports)</h3>
+          <ul>
+            <li><strong>CPU:</strong> Ryzen 5 5500</li>
+            <li><strong>GPU:</strong> RX 6650 XT</li>
+            <li><strong>Price:</strong> ~9300 NOK</li>
+          </ul>
+          <p class="pc-desc">
+            ⟶ 144–240 FPS in CS2, Fortnite, Roblox, Valorant.
+          </p>
+        </div>
 
-        <label>Email</label>
-        <input name="email" type="email" required>
+        <!-- Mid-End -->
+        <div class="pc-card">
+          <h3 class="pc-title">Mid-End (1080p High / 1440p Medium)</h3>
+          <ul>
+            <li><strong>CPU:</strong> Ryzen 5 7600</li>
+            <li><strong>GPU:</strong> RX 7700 XT</li>
+            <li><strong>Price:</strong> ~14–15k NOK</li>
+          </ul>
+          <p class="pc-desc">
+            ⟶ Very strong AAA performance and smooth 1440p gaming.
+          </p>
+        </div>
 
-        <label>Country</label>
-        <select name="country" required>
-          <option value="Norway">Norway</option>
-          <option value="Sweden">Sweden</option>
-          <option value="Denmark">Denmark</option>
-          <option value="Finland">Finland</option>
-        </select>
+        <!-- High-End -->
+        <div class="pc-card">
+          <h3 class="pc-title">High-End (1440p Ultra / 4K Entry)</h3>
+          <ul>
+            <li><strong>CPU:</strong> Ryzen 7 7800X3D</li>
+            <li><strong>GPU:</strong> RTX 4070 Ti SUPER / RX 7900 XT</li>
+            <li><strong>Price:</strong> 22–28k NOK</li>
+          </ul>
+          <p class="pc-desc">
+            ⟶ Ultra settings in every modern AAA game.
+          </p>
+        </div>
+      </div>
 
-        <label>Street Address</label>
-        <input name="street" type="text" placeholder="Street and house number" required>
+      <div style="text-align:center; margin-top: 35px;">
+        <a href="pc-custom.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 14px 28px;">
+          Want a Custom PC Instead?
+        </a>
+      </div>
 
-        <label>Postcode</label>
-        <input name="postcode" type="text" placeholder="Postcode" required>
-
-        <label>City</label>
-        <input name="city" type="text" placeholder="City" required>
-
-        <label>Budget (NOK)</label>
-        <input name="budget" type="number" min="1" required>
-
-        <label>Color Theme</label>
-        <input name="colors" type="text" placeholder="Black/white, RGB, stealth, etc.">
-
-        <label>Preferences</label>
-        <textarea name="preferences" placeholder="Brands, AMD/Intel, airflow, quiet build, etc."></textarea>
-
-        <label>Notes</label>
-        <textarea name="notes" placeholder="Games you play, editing, special needs, homelab, etc."></textarea>
-
-        <!-- FIX: Added spacing above button -->
-        <button type="submit" class="btn btn-primary" style="margin-top: 14px;">Send Request</button>
-      </form>
-
-      <p id="pcStatus" class="form-status"></p>
     </div>
   </section>
 </main>
@@ -109,54 +97,7 @@
 </footer>
 
 <script>
-  const WEBHOOK_B64 =
-    "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
-
-  const WEBHOOK_URL = atob(WEBHOOK_B64);
-
-  document.getElementById("pcForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const form = new FormData(e.target);
-    const btn = e.target.querySelector("button");
-    const status = document.getElementById("pcStatus");
-
-    btn.disabled = true;
-    status.textContent = "Sending...";
-
-    const content =
-      "🖥️ **New PC Build Request – MiniTechWorks**\n\n" +
-      "**Name:** " + form.get("name") + "\n" +
-      "**Email:** " + form.get("email") + "\n\n" +
-
-      "**Shipping Address**\n" +
-      "- " + form.get("country") + "\n" +
-      "- " + form.get("street") + "\n" +
-      "- " + form.get("postcode") + " " + form.get("city") + "\n\n" +
-
-      "**Budget:** " + form.get("budget") + " NOK\n" +
-      "**Colors:** " + (form.get("colors") || "N/A") + "\n" +
-      "**Preferences:** " + (form.get("preferences") || "N/A") + "\n\n" +
-
-      "**Notes:** " + (form.get("notes") || "N/A");
-    
-    try {
-      await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content })
-      });
-
-      status.textContent = "Request sent! I’ll reply to your email soon.";
-      status.classList.add("success");
-      e.target.reset();
-    } catch {
-      status.textContent =
-        "Message failed to send. This can happen if you’re on a restricted school/work network or if Discord is blocked on your connection.";
-      status.classList.add("error");
-    }
-    btn.disabled = false;
-  });
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
 </body>
