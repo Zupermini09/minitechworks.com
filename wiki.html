@@ -6,7 +6,6 @@
   <title>Tutorials & Wiki – MiniTechWorks</title>
 
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.png" />
 
   <style>
@@ -77,22 +76,24 @@
   
 <body>
 
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header class="site-header">
   <div class="container header-inner">
     <a href="index.html" class="logo">
       <img src="favicon.png" class="logo-img" alt="Logo">
       <span class="logo-text">MiniTechWorks</span>
     </a>
-    <nav class="nav">
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Home</a>
       <a href="3d-print.html">3D Printing</a>
       <a href="pc-builds.html">PC Builds</a>
-      <a href="wiki.html" class="active">Tutorials</a>
+      <a href="wiki.html" class="active" aria-current="page">Tutorials</a>
       <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
 
-<main>
+<main id="main-content">
   <section class="page-hero">
     <div class="container">
       <h1>Tutorials & Wiki</h1>
@@ -111,7 +112,7 @@
       <!-- CATEGORY FILTERS -->
       <div class="category-list" id="category-list"></div>
 
-      <p id="wiki-status" class="small-text">Loading articles…</p>
+      <p id="wiki-status" class="small-text" role="status" aria-live="polite">Loading articles…</p>
 
       <div class="wiki-grid" id="wiki-container"></div>
     </div>
@@ -124,125 +125,7 @@
   </div>
 </footer>
 
-<script>
-// Footer
-document.getElementById("year").textContent = new Date().getFullYear();
-
-let articles = [];
-let filteredArticles = [];
-let activeCategory = "all";
-
-// Fetch articles
-fetch("https://cms.minitechworks.com/articles")
-  .then(res => res.json())
-  .then(json => {
-    if (!Array.isArray(json)) {
-      document.getElementById("wiki-status").textContent =
-        "CMS error: returned invalid data.";
-      return;
-    }
-
-    articles = json;
-    filteredArticles = json;
-    document.getElementById("wiki-status").textContent = "";
-
-    renderCategories();
-    renderArticles();
-  })
-  .catch(() => {
-    document.getElementById("wiki-status").textContent =
-      "Failed to load articles. CMS might be offline.";
-  });
-
-// Render article cards
-function renderArticles() {
-  const grid = document.getElementById("wiki-container");
-  grid.innerHTML = "";
-
-  if (filteredArticles.length === 0) {
-    grid.innerHTML = "<p>No articles found.</p>";
-    return;
-  }
-
-  filteredArticles.forEach(item => {
-    const imgHtml = item.image ? 
-      `<img src="https://cms.minitechworks.com${item.image.url}" alt="Article Image">`
-      : "";
-
-    grid.innerHTML += `
-      <a class="wiki-link" href="wiki-article.html?slug=${item.slug}">
-        <article class="card wiki-card">
-          ${imgHtml}
-          <h2>${item.title}</h2>
-          <p>${item.excerpt || ""}</p>
-        </article>
-      </a>
-    `;
-  });
-}
-
-// Search system
-document.getElementById("search-bar").addEventListener("input", e => {
-  const text = e.target.value.toLowerCase();
-
-  filteredArticles = articles.filter(a =>
-    a.title.toLowerCase().includes(text) ||
-    (a.excerpt && a.excerpt.toLowerCase().includes(text)) ||
-    (a.content && a.content.toLowerCase().includes(text))
-  );
-
-  if (activeCategory !== "all") {
-    filteredArticles = filteredArticles.filter(a =>
-      a.category && a.category.toLowerCase() === activeCategory
-    );
-  }
-
-  renderArticles();
-});
-
-// Category system
-function renderCategories() {
-  const list = document.getElementById("category-list");
-  list.innerHTML = "";
-
-  const cats = [...new Set(articles.map(a => a.category).filter(Boolean))];
-
-  list.innerHTML += `<button class="category-btn active" data-cat="all">All</button>`;
-
-  cats.forEach(cat => {
-    list.innerHTML += `<button class="category-btn" data-cat="${cat.toLowerCase()}">${cat}</button>`;
-  });
-
-  document.querySelectorAll(".category-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      activeCategory = btn.dataset.cat;
-      filterByCategory();
-    });
-  });
-}
-
-function filterByCategory() {
-  let result = articles;
-
-  if (activeCategory !== "all") {
-    result = result.filter(a =>
-      a.category && a.category.toLowerCase() === activeCategory
-    );
-  }
-
-  const text = document.getElementById("search-bar").value.toLowerCase();
-
-  filteredArticles = result.filter(a =>
-    a.title.toLowerCase().includes(text) ||
-    (a.excerpt && a.excerpt.toLowerCase().includes(text)) ||
-    (a.content && a.content.toLowerCase().includes(text))
-  );
-
-  renderArticles();
-}
-</script>
+<script src="scripts.js?v=3"></script>
 
 </body>
 </html>

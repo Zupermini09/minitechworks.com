@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PC Builds – MiniTechWorks</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.ico" />
   <meta name="description" content="Custom PC build quotes at MiniTechWorks." />
 </head>
@@ -21,22 +20,24 @@
 </script>
  
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header class="site-header">
   <div class="container header-inner">
     <a href="index.html" class="logo">
       <img src="favicon.png" class="logo-img" alt="Logo">
       <span class="logo-text">MiniTechWorks</span>
     </a>
-    <nav class="nav">
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Home</a>
       <a href="3d-print.html">3D Printing</a>
-      <a href="pc-builds.html" class="active">PC Builds</a>
+      <a href="pc-builds.html" class="active" aria-current="page">PC Builds</a>
       <a href="wiki.html">Tutorials</a>
       <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
 
-<main>
+<main id="main-content">
   <section class="section">
     <div class="container">
       <h1 class="section-title">Custom PC Build Requests</h1>
@@ -97,7 +98,7 @@
         <button type="submit" class="btn btn-primary" style="margin-top: 14px;">Send Request</button>
       </form>
 
-      <p id="pcStatus" class="form-status"></p>
+      <p id="pcStatus" class="form-status" role="status" aria-live="polite"></p>
     </div>
   </section>
 </main>
@@ -108,56 +109,7 @@
   </div>
 </footer>
 
-<script>
-  const WEBHOOK_B64 =
-    "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
-
-  const WEBHOOK_URL = atob(WEBHOOK_B64);
-
-  document.getElementById("pcForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const form = new FormData(e.target);
-    const btn = e.target.querySelector("button");
-    const status = document.getElementById("pcStatus");
-
-    btn.disabled = true;
-    status.textContent = "Sending...";
-
-    const content =
-      "🖥️ **New PC Build Request – MiniTechWorks**\n\n" +
-      "**Name:** " + form.get("name") + "\n" +
-      "**Email:** " + form.get("email") + "\n\n" +
-
-      "**Shipping Address**\n" +
-      "- " + form.get("country") + "\n" +
-      "- " + form.get("street") + "\n" +
-      "- " + form.get("postcode") + " " + form.get("city") + "\n\n" +
-
-      "**Budget:** " + form.get("budget") + " NOK\n" +
-      "**Colors:** " + (form.get("colors") || "N/A") + "\n" +
-      "**Preferences:** " + (form.get("preferences") || "N/A") + "\n\n" +
-
-      "**Notes:** " + (form.get("notes") || "N/A");
-    
-    try {
-      await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content })
-      });
-
-      status.textContent = "Request sent! I’ll reply to your email soon.";
-      status.classList.add("success");
-      e.target.reset();
-    } catch {
-      status.textContent =
-        "Message failed to send. This can happen if you’re on a restricted school/work network or if Discord is blocked on your connection.";
-      status.classList.add("error");
-    }
-    btn.disabled = false;
-  });
-</script>
+<script src="scripts.js?v=3"></script>
 
 </body>
 </html>

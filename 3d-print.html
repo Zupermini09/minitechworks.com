@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>3D Printing – MiniTechWorks</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.ico" />
   <meta name="description" content="3D printing services at MiniTechWorks. Fair pricing per gram and fast replies." />
 </head>
@@ -21,14 +20,16 @@
 </script>
   
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header class="site-header">
   <div class="container header-inner">
     <a href="index.html" class="logo">
       <img src="favicon.png" class="logo-img" alt="Logo">
       <span class="logo-text">MiniTechWorks</span>
     </a>
-    <nav class="nav">
-      <a href="3d-print.html" class="active">3D Printing</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="3d-print.html" class="active" aria-current="page">3D Printing</a>
       <a href="pc-builds.html">PC Builds</a>
       <a href="wiki.html">Tutorials</a>
       <a href="contact.html">Contact</a>
@@ -36,7 +37,7 @@
   </div>
 </header>
 
-<main>
+<main id="main-content">
   <section class="section">
     <div class="container">
 
@@ -109,7 +110,7 @@
         <button type="submit" class="btn btn-primary">Send Request</button>
       </form>
 
-      <p id="printStatus" class="form-status"></p>
+      <p id="printStatus" class="form-status" role="status" aria-live="polite"></p>
     </div>
   </section>
 </main>
@@ -120,81 +121,7 @@
   </div>
 </footer>
 
-<script>
-  const WEBHOOK_B64 =
-    "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
-
-  const WEBHOOK_URL = atob(WEBHOOK_B64);
-
-  // Price per gram
-  const PRICE = 0.4;
-
-  // Calculator
-  const gramsInput = document.getElementById("gramsInput");
-  const estText = document.getElementById("estimateText");
-
-  function updateEstimate() {
-    const g = Number(gramsInput.value) || 0;
-    estText.textContent = "Estimated: " + (g * PRICE).toFixed(2) + " NOK";
-  }
-
-  gramsInput.addEventListener("input", updateEstimate);
-  updateEstimate();
-
-  // Discord submit
-  document.getElementById("printForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const form = new FormData(e.target);
-    const btn = e.target.querySelector("button");
-    const status = document.getElementById("printStatus");
-
-    btn.disabled = true;
-    status.textContent = "Sending...";
-
-    // Estimated price logic
-    const grams = Number(form.get("grams") || 0);
-    const estimatedPrice = grams > 0 ? (grams * PRICE).toFixed(2) + " NOK" : "N/A";
-
-    const content =
-      "🧱 **New 3D Print Request – MiniTechWorks**\n\n" +
-      "**Name:** " + form.get("name") + "\n" +
-      "**Email:** " + form.get("email") + "\n\n" +
-
-      "**Shipping Address**\n" +
-      "- " + form.get("country") + "\n" +
-      "- " + form.get("street") + "\n" +
-      "- " + form.get("postcode") + " " + form.get("city") + "\n\n" +
-
-      "**Model Link:** " + form.get("fileLink") + "\n" +
-      "**Material:** " + form.get("material") + "\n" +
-      "**Color:** " + (form.get("color") || "N/A") + "\n\n" +
-
-      "**Estimated Weight:** " + (grams || "N/A") + " g\n" +
-      "**Estimated Price:** " + estimatedPrice + "\n\n" +
-
-      "**Notes:** " + (form.get("notes") || "N/A");
-
-    try {
-      await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content })
-      });
-
-      status.textContent = "Request sent! I’ll get back to you soon.";
-      status.classList.add("success");
-      e.target.reset();
-      updateEstimate();
-    } catch {
-      status.textContent =
-        "Message failed to send. This can happen if you’re on a restricted school/work network or if Discord is blocked on your connection.";
-      status.classList.add("error");
-    }
-
-    btn.disabled = false;
-  });
-</script>
+<script src="scripts.js?v=3"></script>
 
 </body>
 </html>

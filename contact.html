@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact – MiniTechWorks</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.ico" />
   <meta name="description" content="MiniTechWorks – 3D printing, PC builds, and simple tech tutorials in Scandinavia." />
 </head>
@@ -20,22 +19,24 @@
 </script>
   
 <body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header class="site-header">
   <div class="container header-inner">
     <a href="index.html" class="logo">
       <img src="favicon.png" class="logo-img" alt="Logo">
       <span class="logo-text">MiniTechWorks</span>
     </a>
-    <nav class="nav">
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Home</a>
       <a href="3d-print.html">3D Printing</a>
       <a href="pc-builds.html">PC Builds</a>
       <a href="wiki.html">Tutorials</a>
-      <a href="contact.html" class="active">Contact</a>
+      <a href="contact.html" class="active" aria-current="page">Contact</a>
     </nav>
   </div>
 </header>
 
-<main>
+<main id="main-content">
   <section class="page-hero">
     <div class="container">
       <h1>Contact & About</h1>
@@ -79,7 +80,7 @@
           </div>
 
           <button type="submit" class="btn btn-primary">Send</button>
-          <p id="contact-message-info" class="form-message" aria-live="polite"></p>
+          <p id="contact-message-info" class="form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
 
@@ -122,51 +123,7 @@
   </div>
 </footer>
 
-<script>
-// Footer year
-document.getElementById("year").textContent = new Date().getFullYear();
-
-/* ───────────────────────────────────────────────
-   CONTACT FORM → DISCORD WEBHOOK (like PC builds)
-   ─────────────────────────────────────────────── */
-
-const CONTACT_WEBHOOK_B64 =
-  "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzOTI2NTc4MDcwODU0MDQxNi9GNjNGTG5FNTQzcXFiVHk2Q01UbEQybUh5SjF2djFadzFOQXBpTjJlbXFNUTQwLVJYOEJhVndxWTQ2dVBacEFFcDRBbg==";
-
-const CONTACT_WEBHOOK_URL = atob(CONTACT_WEBHOOK_B64);
-
-document.getElementById("contact-form").addEventListener("submit", async e => {
-  e.preventDefault();
-
-  const form = new FormData(e.target);
-  const status = document.getElementById("contact-message-info");
-
-  status.textContent = "Sending…";
-
-  const content =
-    "📨 **New Contact Form Message – MiniTechWorks**\n\n" +
-    "**Name:** " + form.get("name") + "\n" +
-    "**Email:** " + form.get("email") + "\n" +
-    "**Topic:** " + (form.get("topic") || "N/A") + "\n\n" +
-    "**Message:**\n" + (form.get("message") || "No message provided.");
-
-  try {
-    await fetch(CONTACT_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content })
-    });
-
-    status.textContent = "Message sent! I’ll reply to your email soon.";
-    status.classList.add("success");
-    e.target.reset();
- } catch {
-    status.textContent =
-      "Message failed to send. This can happen if you’re on a restricted school/work network or if Discord is blocked on your connection.";
-    status.classList.add("error");
-  }
-});
-</script>
+<script src="scripts.js?v=3"></script>
 
 </body>
 </html>

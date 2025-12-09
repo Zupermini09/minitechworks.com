@@ -6,7 +6,6 @@
   <title>Article – MiniTechWorks</title>
 
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="dark.css">
   <link rel="icon" href="/favicon.png" />
 
   <style>
@@ -56,33 +55,20 @@
 
     /* WARNING + INFO BOXES */
     .article-warning {
-      background: #fef3c7;
-      border-left: 4px solid #f59e0b;
-      padding: 16px;
-      border-radius: 12px;
-      margin: 20px 0;
-      color: #78350f;
-    }
-
-    .article-info {
-      background: #e0f2fe;
-      border-left: 4px solid #0284c7;
-      padding: 16px;
-      border-radius: 12px;
-      margin: 20px 0;
-      color: #0c4a6e;
-    }
-
-    /* DARK MODE OVERRIDES */
-    .dark-mode .article-warning {
       background: #7a2e0e;
-      border-color: #fbbf24;
+      border-left: 4px solid #fbbf24;
+      padding: 16px;
+      border-radius: 12px;
+      margin: 20px 0;
       color: #fffaf0;
     }
 
-    .dark-mode .article-info {
+    .article-info {
       background: #0f3b66;
-      border-color: #38bdf8;
+      border-left: 4px solid #38bdf8;
+      padding: 16px;
+      border-radius: 12px;
+      margin: 20px 0;
       color: #e0f7ff;
     }
 
@@ -122,22 +108,24 @@
  
 <body>
 
+<a class="skip-link" href="#main-content">Skip to main content</a>
 <header class="site-header">
   <div class="container header-inner">
     <a href="index.html" class="logo">
       <img src="favicon.png" class="logo-img" alt="Logo">
       <span class="logo-text">MiniTechWorks</span>
     </a>
-    <nav class="nav">
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html">Home</a>
       <a href="3d-print.html">3D Printing</a>
       <a href="pc-builds.html">PC Builds</a>
-      <a href="wiki.html" class="active">Tutorials</a>
+      <a href="wiki.html" class="active" aria-current="page">Tutorials</a>
       <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
 
-<main>
+<main id="main-content">
   <section class="section">
     <div class="container">
 
@@ -173,65 +161,7 @@
   </div>
 </footer>
 
-<script>
-// Footer year
-document.getElementById("year").textContent = new Date().getFullYear();
-
-const params = new URLSearchParams(window.location.search);
-const slug = params.get("slug");
-
-if (!slug) {
-  document.getElementById("article-title").textContent = "Article Not Found";
-  document.getElementById("article-content").textContent = "No article selected.";
-  throw new Error("Missing slug");
-}
-
-// Fetch from Strapi
-fetch(`https://cms.minitechworks.com/articles?slug=${slug}`)
-  .then(res => res.json())
-  .then(json => {
-    if (!Array.isArray(json) || json.length === 0) {
-      document.getElementById("article-title").textContent = "Not Found";
-      document.getElementById("article-content").textContent = "This article does not exist.";
-      return;
-    }
-
-    const article = json[0];
-
-    document.title = `${article.title} – MiniTechWorks`;
-    document.getElementById("article-title").textContent = article.title;
-    document.getElementById("article-subtitle").textContent = article.excerpt || "";
-
-    if (article.image) {
-      const cover = document.getElementById("article-cover");
-      cover.src = "https://cms.minitechworks.com" + article.image.url;
-      cover.style.display = "block";
-    }
-
-    let html = article.content;
-
-    html = html.replace(/\[warning\]([\s\S]*?)\[\/warning\]/gi,
-      '<div class="article-warning">$1</div>'
-    );
-
-    html = html.replace(/\[info\]([\s\S]*?)\[\/info\]/gi,
-      '<div class="article-info">$1</div>'
-    );
-
-    html = html.replace(/\n/g, "<br>");
-
-    html = html.replace(
-      /((https?:\/\/)[^\s<]+)/g,
-      '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
-    );
-
-    document.getElementById("article-content").innerHTML = html;
-  })
-  .catch(() => {
-    document.getElementById("article-title").textContent = "Error loading article";
-    document.getElementById("article-content").textContent = "CMS appears to be offline.";
-  });
-</script>
+<script src="scripts.js?v=3"></script>
 
 </body>
 </html>
