@@ -8,6 +8,7 @@ const DISCORD_WEBHOOK_URL = atob(DISCORD_WEBHOOK_B64);
 const PRICE_PER_GRAM = 0.4;
 
 document.addEventListener("DOMContentLoaded", () => {
+  setHeaderHeight(); // Ensure it's set after DOM is ready
   setFooterYear();
   initPrintEstimator();
   bindPrintForm();
@@ -15,6 +16,25 @@ document.addEventListener("DOMContentLoaded", () => {
   bindContactForm();
   initWikiList();
   initWikiArticle();
+});
+
+function setHeaderHeight() {
+  const header = document.querySelector('.site-header');
+  if (header) {
+    const height = header.offsetHeight;
+    // Only update if different to avoid unnecessary repaints
+    const currentHeight = getComputedStyle(document.documentElement).getPropertyValue('--header-height').trim();
+    if (currentHeight !== `${height}px`) {
+      document.documentElement.style.setProperty('--header-height', `${height}px`);
+    }
+  }
+}
+
+// Update header height on resize with debounce
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(setHeaderHeight, 100);
 });
 
 function setFooterYear() {
