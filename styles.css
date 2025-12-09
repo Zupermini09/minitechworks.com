@@ -183,7 +183,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 0;
+  padding: 24px 0;
   gap: 24px;
   position: relative;
   z-index: 1;
@@ -506,7 +506,7 @@ main {
 
 .step-card {
   position: relative;
-  padding-top: 48px;
+  padding-top: 56px;
   transition: transform var(--transition-base);
 }
 
@@ -516,8 +516,8 @@ main {
 
 .step-number {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 24px;
+  left: 24px;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
   border-radius: 999px;
@@ -530,6 +530,7 @@ main {
   line-height: 1.2;
   animation: stepPulse 3s ease-in-out infinite;
   position: relative;
+  z-index: 2;
 }
 
 .step-number::before {
@@ -568,10 +569,12 @@ main {
 
 .step-card h3 {
   font-weight: 600;
-  margin-top: 0;
+  margin-top: 8px;
   margin-bottom: 12px;
   color: var(--text);
-  padding-top: 4px;
+  padding-top: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .step-card p {
