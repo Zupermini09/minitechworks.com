@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,234 +8,73 @@
 
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="/favicon.png" />
-
-  <style>
-    /* MAIN ARTICLE DESIGN */
-    .article-hero {
-      text-align: center;
-      max-width: 800px;
-      margin: 0 auto 40px;
-    }
-
-    .article-hero h1 {
-      font-size: clamp(2rem, 5vw, 2.75rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-      margin-bottom: 12px;
-    }
-
-    .article-cover {
-      width: 100%;
-      max-width: 1000px;
-      margin: 32px auto;
-      display: block;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-xl);
-      border: 1px solid var(--border);
-      transition: transform var(--transition-base);
-    }
-
-    .article-cover:hover {
-      transform: scale(1.01);
-    }
-
-    .article-body {
-      max-width: 800px;
-      margin: 0 auto;
-      background: var(--card-bg);
-      padding: 40px 32px;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--border);
-      line-height: 1.8;
-      font-size: 1.0625rem;
-      color: var(--text-secondary);
-    }
-
-    .article-body h2 {
-      margin-top: 40px;
-      margin-bottom: 16px;
-      font-size: clamp(1.5rem, 3vw, 1.875rem);
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      line-height: 1.3;
-    }
-
-    .article-body h2:first-of-type {
-      margin-top: 0;
-    }
-
-    .article-body h3 {
-      margin-top: 32px;
-      margin-bottom: 12px;
-      font-size: clamp(1.25rem, 2.5vw, 1.5rem);
-      font-weight: 600;
-      color: var(--text);
-      letter-spacing: -0.01em;
-    }
-
-    .article-body p {
-      margin-bottom: 20px;
-      line-height: 1.8;
-    }
-
-    .article-body ol,
-    .article-body ul {
-      padding-left: 28px;
-      margin-bottom: 20px;
-      line-height: 1.8;
-    }
-
-    .article-body li {
-      margin-bottom: 10px;
-    }
-
-    .article-body code {
-      background: var(--input-bg);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.9em;
-      font-family: 'Courier New', monospace;
-      color: var(--primary);
-      border: 1px solid var(--border);
-    }
-
-    /* WARNING + INFO BOXES */
-    .article-warning {
-      background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(217, 119, 6, 0.1));
-      border-left: 4px solid #fbbf24;
-      padding: 20px;
-      border-radius: var(--radius-md);
-      margin: 28px 0;
-      color: #fffaf0;
-      box-shadow: var(--shadow-md);
-    }
-
-    .article-info {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(14, 165, 233, 0.1));
-      border-left: 4px solid #38bdf8;
-      padding: 20px;
-      border-radius: var(--radius-md);
-      margin: 28px 0;
-      color: #e0f7ff;
-      box-shadow: var(--shadow-md);
-    }
-
-    /* LINKS */
-    .article-body a {
-      color: var(--primary);
-      font-weight: 600;
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: all var(--transition-fast);
-    }
-
-    .article-body a:hover {
-      color: var(--primary-hover);
-      border-bottom-color: var(--primary);
-    }
-
-    .article-body a:focus-visible {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-      border-radius: 4px;
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin: 32px 0;
-      padding: 10px 16px;
-      font-size: 0.9375rem;
-      font-weight: 500;
-      color: var(--primary);
-      text-decoration: none;
-      border-radius: var(--radius-sm);
-      transition: all var(--transition-base);
-      background: var(--primary-soft);
-    }
-
-    .back-link:hover {
-      background: rgba(96, 165, 250, 0.25);
-      transform: translateX(-4px);
-      color: var(--primary-hover);
-    }
-
-    .back-link:focus-visible {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-  </style>
 </head>
 
 <!-- Google tag -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-91ZW58C57G"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
   gtag('config', 'G-91ZW58C57G');
 </script>
- 
+
 <body>
 
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<header class="site-header">
-  <div class="container header-inner">
-    <a href="index.html" class="logo">
-      <img src="favicon.png" class="logo-img" alt="Logo">
-      <span class="logo-text">MiniTechWorks</span>
-    </a>
-    <nav class="nav" aria-label="Primary">
-      <a href="index.html">Home</a>
-      <a href="3d-print.html">3D Printing</a>
-      <a href="pc-builds.html">PC Builds</a>
-      <a href="wiki.html" class="active" aria-current="page">Tutorials</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<main id="main-content">
-  <section class="section">
-    <div class="container">
-
-      <div class="article-hero">
-        <h1 id="article-title">Loading…</h1>
-        <p id="article-subtitle" class="small-text"></p>
-      </div>
-
-      <img id="article-cover" class="article-cover" style="display:none;">
-
-      <article id="article-content" class="article-body">
-        <p>Loading article…</p>
-      </article>
-
-      <a href="wiki.html" class="back-link">← Back to all articles</a>
-
-      <!-- ⭐ BUY ME A COFFEE BUTTON -->
-      <div style="text-align:center; margin:30px 0 20px;">
-        <a href="https://www.buymeacoffee.com/emilianovec" target="_blank">
-          <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-               alt="Buy Me A Coffee"
-               style="height:60px !important; width:217px !important;">
-        </a>
-      </div>
-
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="favicon.png" class="logo-img" alt="Logo">
+        <span class="logo-text">MiniTechWorks</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="3d-print.html">3D Printing</a>
+        <a href="pc-builds.html">PC Builds</a>
+        <a href="wiki.html" class="active" aria-current="page">Tutorials</a>
+        <a href="contact.html">Contact</a>
+      </nav>
     </div>
-  </section>
-</main>
+  </header>
 
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <p>© <span id="year"></span> MiniTechWorks.</p>
-  </div>
-</footer>
+  <main id="main-content">
+    <section class="section">
+      <div class="container">
 
-<script src="scripts.js?v=3"></script>
+        <div class="article-hero">
+          <h1 id="article-title">Loading…</h1>
+          <p id="article-subtitle" class="small-text"></p>
+        </div>
+
+        <img id="article-cover" class="article-cover" style="display:none;">
+
+        <article id="article-content" class="article-body">
+          <p>Loading article…</p>
+        </article>
+
+        <a href="wiki.html" class="back-link">← Back to all articles</a>
+
+        <!-- ⭐ BUY ME A COFFEE BUTTON -->
+        <div style="text-align:center; margin:30px 0 20px;">
+          <a href="https://www.buymeacoffee.com/emilianovec" target="_blank">
+            <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"
+              style="height:60px !important; width:217px !important;">
+          </a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> MiniTechWorks.</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js?v=3"></script>
 
 </body>
+
 </html>

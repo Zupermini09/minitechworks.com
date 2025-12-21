@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,167 +8,70 @@
 
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="/favicon.png" />
-
-  <style>
-    /* Search bar */
-    #search-bar {
-      width: 100%;
-      padding: 14px 18px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border);
-      background: var(--input-bg);
-      color: var(--text);
-      font-size: 1rem;
-      transition: all var(--transition-base);
-      margin-bottom: 20px;
-    }
-
-    #search-bar:hover {
-      border-color: var(--border-hover);
-      background: var(--input-bg-focus);
-    }
-
-    #search-bar:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: var(--input-bg-focus);
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15), 0 0 0 1px var(--primary);
-    }
-
-    #search-bar::placeholder {
-      color: var(--muted-light);
-      opacity: 0.7;
-    }
-
-    /* Category buttons */
-    .category-list {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin: 0 0 28px;
-    }
-
-    .category-btn {
-      padding: 8px 18px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--input-bg);
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all var(--transition-base);
-    }
-
-    .category-btn:hover {
-      background: var(--primary-soft);
-      color: var(--primary);
-      border-color: var(--primary);
-      transform: translateY(-1px);
-    }
-
-    .category-btn.active {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      border-color: var(--primary-dark);
-      box-shadow: var(--shadow-md), 0 0 12px rgba(96, 165, 250, 0.3);
-    }
-
-    .category-btn:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
-    }
-
-    /* Article image */
-    .wiki-card img {
-      width: 100%;
-      border-radius: var(--radius-md);
-      margin-bottom: 16px;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition-base);
-    }
-
-    .wiki-link:hover .wiki-card img {
-      transform: scale(1.02);
-    }
-
-    /* Make card clickable */
-    .wiki-link {
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      height: 100%;
-    }
-
-    .wiki-card:hover {
-      border-color: var(--primary);
-    }
-  </style>
 </head>
 
 <!-- Google tag -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-91ZW58C57G"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
   gtag('config', 'G-91ZW58C57G');
 </script>
-  
+
 <body>
 
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<header class="site-header">
-  <div class="container header-inner">
-    <a href="index.html" class="logo">
-      <img src="favicon.png" class="logo-img" alt="Logo">
-      <span class="logo-text">MiniTechWorks</span>
-    </a>
-    <nav class="nav" aria-label="Primary">
-      <a href="index.html">Home</a>
-      <a href="3d-print.html">3D Printing</a>
-      <a href="pc-builds.html">PC Builds</a>
-      <a href="wiki.html" class="active" aria-current="page">Tutorials</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<main id="main-content">
-  <section class="page-hero">
-    <div class="container">
-      <h1>Tutorials & Wiki</h1>
-      <p class="page-subtitle">
-        Articles, guides and helpful tips — automatically loaded from your CMS.
-      </p>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="favicon.png" class="logo-img" alt="Logo">
+        <span class="logo-text">MiniTechWorks</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="3d-print.html">3D Printing</a>
+        <a href="pc-builds.html">PC Builds</a>
+        <a href="wiki.html" class="active" aria-current="page">Tutorials</a>
+        <a href="contact.html">Contact</a>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <section class="section">
-    <div class="container">
+  <main id="main-content">
+    <section class="page-hero">
+      <div class="container">
+        <h1>Tutorials & Wiki</h1>
+        <p class="page-subtitle">
+          Articles, guides and helpful tips — automatically loaded from your CMS.
+        </p>
+      </div>
+    </section>
 
-      <!-- SEARCH BAR -->
-      <input id="search-bar" type="text" placeholder="Search articles…">
+    <section class="section">
+      <div class="container">
 
-      <!-- CATEGORY FILTERS -->
-      <div class="category-list" id="category-list"></div>
+        <!-- SEARCH BAR -->
+        <input id="search-bar" type="text" placeholder="Search articles…">
 
-      <p id="wiki-status" class="small-text" role="status" aria-live="polite">Loading articles…</p>
+        <!-- CATEGORY FILTERS -->
+        <div class="category-list" id="category-list"></div>
 
-      <div class="wiki-grid" id="wiki-container"></div>
+        <p id="wiki-status" class="small-text" role="status" aria-live="polite">Loading articles…</p>
+
+        <div class="wiki-grid" id="wiki-container"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> MiniTechWorks.</p>
     </div>
-  </section>
-</main>
+  </footer>
 
-<footer class="site-footer">
-  <div class="container footer-inner">
-    <p>© <span id="year"></span> MiniTechWorks.</p>
-  </div>
-</footer>
-
-<script src="scripts.js?v=3"></script>
+  <script src="scripts.js?v=3"></script>
 
 </body>
+
 </html>
